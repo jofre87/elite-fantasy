@@ -45,7 +45,9 @@ class ScrapingController extends Controller
             $points_3 = $playerElement->attr('data-puntos3') ?? 0;
             $points_5 = $playerElement->attr('data-puntos5') ?? 0;
             $average_points = $playerElement->attr('data-mediatemporada') ?? 0.0;
-            $image_url = $playerElement->filter('.fotocontainer img')->attr('src') ?? '';
+            $image_url = $playerElement->filter('.fotocontainer img')->attr('data-src')
+                ?? $playerElement->filter('.fotocontainer img')->attr('src')
+                ?? '';
 
             // Buscar o crear el equipo
             $equipo = Equipo::updateOrCreate(

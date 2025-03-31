@@ -21,6 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::get('/scrape-quotes', [ScrapingController::class, 'scrapeQuotes']);
+Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 require __DIR__ . '/auth.php';

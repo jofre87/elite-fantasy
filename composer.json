@@ -15,6 +15,7 @@
         "livewire/flux": "^2.0",
         "livewire/volt": "^1.7.0",
         "symfony/browser-kit": "^7.2",
+        "symfony/dom-crawler": "^7.2",
         "symfony/http-client": "^7.2"
     },
     "require-dev": {

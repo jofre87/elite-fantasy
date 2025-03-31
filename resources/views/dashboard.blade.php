@@ -51,7 +51,13 @@
 <!--
 CMD:
 cd C:\xampp\htdocs\elite-fantasy
+node y composer
+librerias necesarias: composer require symfony/browser-kit symfony/http-client symfony/dom-crawler
+npm install
+npm run build
+
+
 php artisan serve
 http://localhost:8000/dashboard
-http://localhost:8000/scrape-quotes
+http://localhost:8000/scrape-players
 -->
