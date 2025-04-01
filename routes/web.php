@@ -24,3 +24,5 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 require __DIR__ . '/auth.php';
+
+

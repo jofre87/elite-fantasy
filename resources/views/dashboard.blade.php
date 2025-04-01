@@ -2,7 +2,7 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
             @foreach ($players as $player)
-                @if ($player->equipo_id == 3) <!-- Verifica si el jugador pertenece al equipo con ID 28 -->
+                @if ($player->equipo_id == 7) <!-- Verifica si el jugador pertenece al equipo con ID 3 -->
                     <div
                         class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-4 bg-white dark:bg-neutral-800">
                         <div class="flex items-center gap-4">
