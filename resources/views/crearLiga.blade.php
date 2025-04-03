@@ -3,10 +3,10 @@
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <h1 class="text-2xl font-bold mb-8">Gestión de Ligas</h1>
 
-        <!-- Contenedor para alinear los divs horizontalmente -->
+        <!-- Contenedor principal para alinear los divs horizontalmente -->
         <div class="flex flex-wrap justify-center gap-8">
-            <!-- Div para crear una liga -->
-            <div class="w-full max-w-md bg-blue-100 p-6 rounded-lg shadow-md">
+            <!-- Contenedor con fondo para crear una liga -->
+            <div class="w-full max-w-md p-6 rounded-lg shadow-md bg-blue-50">
                 <h2 class="text-xl font-semibold mb-4 text-blue-700">Crear Liga</h2>
                 <form action="{{ route('league.store') }}" method="POST">
                     @csrf
@@ -28,8 +28,8 @@
                 </form>
             </div>
 
-            <!-- Div para unirse a una liga -->
-            <div class="w-full max-w-md bg-green-100 p-6 rounded-lg shadow-md">
+            <!-- Contenedor con fondo para unirse a una liga -->
+            <div class="w-full max-w-md p-6 rounded-lg shadow-md bg-green-50">
                 <h2 class="text-xl font-semibold mb-4 text-green-700">Unirse a una Liga</h2>
                 <form action="{{ route('league.join') }}" method="POST">
                     @csrf

@@ -97,7 +97,8 @@
             <div class="logo">
                 @include('components.app-logo')
             </div>
-            <div class="menu-and-user flex items-center gap-4 mt-2"> <!-- Contenedor para el botón y el menú de usuario -->
+            <div class="menu-and-user flex items-center gap-4 mt-2">
+                <!-- Contenedor para el botón y el menú de usuario -->
                 <button class="menu-button text-white bg-blue-700 p-3 rounded-md">☰</button>
                 <div class="user-menu" x-data="{ open: false }">
                     <div class="username cursor-pointer" @click="open = !open">
@@ -113,18 +114,34 @@
                 </div>
             </div>
         </div>
-    
-        <div class="user-area flex items-center gap-4">
+
+        <!-- filepath: d:\DAW\Proyecte\elite-fantasy\resources\views\components\header.blade.php -->
+        <div class="user-area flex items-center gap-4 ml-auto mr-8"> <!-- Ajuste de márgenes -->
             <nav>
                 <ul class="nav-links hidden lg:flex">
-                    <li><a href="{{ route('dashboard') }}">Inicio</a></li>
-                    <li><a href="#">Plantilla</a></li>
-                    <li><a href="#">Mercado</a></li>
+                    <li class="flex flex-col items-center">
+                        <a href="{{ route('dashboard') }}" class="flex flex-col items-center">
+                            <img src="/img/inicio.png" alt="Inicio" class="w-10 h-8 mb-2"> <!-- Más ancho -->
+                            <span class="text-sm font-medium text-white hover:text-gray-300">Inicio</span>
+                        </a>
+                    </li>
+                    <li class="flex flex-col items-center">
+                        <a href="#" class="flex flex-col items-center">
+                            <img src="/img/plantilla.png" alt="Plantilla" class="w-8 h-8 mb-2">
+                            <span class="text-sm font-medium text-white hover:text-gray-300">Plantilla</span>
+                        </a>
+                    </li>
+                    <li class="flex flex-col items-center">
+                        <a href="#" class="flex flex-col items-center">
+                            <img src="/img/mercado.png" alt="Mercado" class="w-8 h-8 mb-2">
+                            <span class="text-sm font-medium text-white hover:text-gray-300">Mercado</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
-    
+
 
     {{ $slot }}
 
