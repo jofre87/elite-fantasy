@@ -1,18 +1,32 @@
 <x-layouts.app :title="__('Dashboard')">
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
+        <!-- Apartado Plantilla -->
+        <div class="grid auto-rows-min gap-4">
+            <h2>Jugador</h2>
             @foreach ($players as $player)
-                @if ($player->equipo_id == 7) <!-- Verifica si el jugador pertenece al equipo con ID 3 -->
+                @if ($player->nombre == 'kylian mbappe')
                     <div
                         class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-4 bg-white dark:bg-neutral-800">
                         <div class="flex items-center gap-4">
                             <img class="w-16 h-16 rounded-full" src="{{ $player->imagen }}" alt="{{ $player->nombre }}">
                             <div>
                                 <h2 class="text-lg font-bold">{{ $player->nombre }}</h2>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">{{ $player->posicion }}</p>
-                                <!-- Aquí mostramos los puntos de temporada o estadísticas adicionales -->
+                                <p
+                                    class="text-s
+                                                                                                           m text-gray-600 dark:text-gray-400">
+                                    Equipo: <img class="inline w-6 h-6" src="{{ $player->equipo->escudo }}"
+                                        alt="{{ $player->equipo->nombre }}">
+                                </p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Posición: {{ $player->posicion }}</p>
+
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Valor: {{ $player->valor }}</p>
                                 <p class="text-sm text-gray-900 dark:text-gray-100">Puntos:
                                     {{ $player->estadisticasTemporada->puntos_totales ?? 'N/A' }}
+                                </p>
+                                <p class="text-sm text-gray-900 dark:text-gray-100">Puntos recientes:
+                                    @foreach ($player->estadisticasPartidosRecientes->take(5) as $estadistica)
+                                        {{ $estadistica->puntos }},<!--Esto seguardara en estadisticas temporada-->
+                                    @endforeach
                                 </p>
                             </div>
                         </div>
@@ -22,7 +36,6 @@
         </div>
     </div>
 </x-layouts.app>
-
 
 <!--
 CMD:

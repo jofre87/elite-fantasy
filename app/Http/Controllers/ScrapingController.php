@@ -49,10 +49,24 @@ class ScrapingController extends Controller
                 ?? $playerElement->filter('.fotocontainer img')->attr('src')
                 ?? '';
 
+            // Extraer el nombre del equipo
+            $team_name = $playerElement->filter('.equipo span')->count() > 0
+                ? trim($playerElement->filter('.equipo span')->text())
+                : "Equipo $team_id";
+
+            // Extraer la racha de puntos como un array
+            $rachaPuntos = [];
+            $playerElement->filter('.racha-box.columna_puntos')->each(function (Crawler $puntoElement) use (&$rachaPuntos) {
+                $puntos = trim($puntoElement->text());
+                if (is_numeric($puntos)) {
+                    $rachaPuntos[] = (int) $puntos;
+                }
+            });
+
             // Buscar o crear el equipo
             $equipo = Equipo::updateOrCreate(
                 ['id' => $team_id],
-                ['nombre' => 'Equipo ' . $team_id, 'escudo' => 'https://static.futbolfantasy.com/uploads/images/cabecera/hd/' . $team_id . '.png']
+                ['nombre' => $team_name, 'escudo' => "https://static.futbolfantasy.com/uploads/images/cabecera/hd/{$team_id}.png"]
             );
             // Crear o actualizar el jugador
             $jugador = Jugador::updateOrCreate(
@@ -72,7 +86,8 @@ class ScrapingController extends Controller
                 [
                     'puntos_totales' => $points_season,
                     'media_puntos' => $average_points,
-                    'partidos_jugados' => $playerElement->attr('data-temporada') ?? 0
+                    'partidos_jugados' => $playerElement->attr('data-temporada') ?? 0,
+                    'racha_puntos' => json_encode($rachaPuntos) // Guardar racha como JSON
                 ]
             );
 
@@ -88,15 +103,6 @@ class ScrapingController extends Controller
                         'partidos_jugados' => $playerElement->attr("data-jugados{$rango}") ?? 0,
                         'media' => $playerElement->attr("data-media{$rango}") ?? 0.0
                     ]
-                );
-            }
-
-            // Crear o actualizar la racha de puntos
-            for ($i = 1; $i <= 5; $i++) {
-                $categoria = $this->getCategoria($playerElement->attr("data-racha{$i}"));
-                RachaPuntos::updateOrCreate(
-                    ['jugador_id' => $jugador->id, 'partido' => $i],
-                    ['puntos' => $playerElement->attr("data-racha{$i}") ?? 0, 'categoria' => $categoria]
                 );
             }
         });
