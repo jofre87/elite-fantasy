@@ -92,32 +92,39 @@
 </head>
 
 <body class="min-h-screen">
-    <header class="header">
-        <div class="logo">
-            <span>ELITE FANTASY</span>
-        </div>
-
-        <div class="user-area">
-            <div class="user-menu" x-data="{ open: false }">
-                <div class="username" @click="open = !open">{{ auth()->user()->name }}</div>
-                <div class="user-dropdown" x-show="open" @click.away="open = false">
-                    <a href="{{ route('settings.profile') }}">Settings</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit">Log Out</button>
-                    </form>
+    <header class="header flex items-center justify-between p-4 bg-blue-600 text-white">
+        <div class="logo-container flex flex-col items-start"> <!-- Contenedor para el logo y el botón -->
+            <div class="logo">
+                @include('components.app-logo')
+            </div>
+            <div class="menu-and-user flex items-center gap-4 mt-2"> <!-- Contenedor para el botón y el menú de usuario -->
+                <button class="menu-button text-white bg-blue-700 p-3 rounded-md">☰</button>
+                <div class="user-menu" x-data="{ open: false }">
+                    <div class="username cursor-pointer" @click="open = !open">
+                        {{ auth()->user()->name }}
+                    </div>
+                    <div class="user-dropdown" x-show="open" @click.away="open = false">
+                        <a href="{{ route('settings.profile') }}">Settings</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Log Out</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div>
+    
+        <div class="user-area flex items-center gap-4">
             <nav>
                 <ul class="nav-links hidden lg:flex">
                     <li><a href="{{ route('dashboard') }}">Inicio</a></li>
                     <li><a href="#">Plantilla</a></li>
                     <li><a href="#">Mercado</a></li>
                 </ul>
-                <button class="lg:hidden">☰</button>
             </nav>
         </div>
     </header>
+    
 
     {{ $slot }}
 
