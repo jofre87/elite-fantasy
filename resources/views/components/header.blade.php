@@ -97,9 +97,20 @@
             <div class="logo">
                 @include('components.app-logo')
             </div>
+            <!-- filepath: d:\DAW\Proyecte\elite-fantasy\resources\views\components\header.blade.php -->
             <div class="menu-and-user flex items-center gap-4 mt-2">
-                <!-- Contenedor para el botón y el menú de usuario -->
-                <button class="menu-button text-white bg-blue-700 p-3 rounded-md">☰</button>
+                <!-- Botón desplegable -->
+                <div class="relative" x-data="{ open: false }">
+                    <button class="menu-button text-white bg-blue-700 p-3 rounded-md" @click="open = !open">
+                        ☰
+                    </button>
+                    <!-- Opciones del desplegable -->
+                    <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10" x-show="open"
+                        @click.away="open = false">
+                        <a href="{{ route('settings.profile') }}" class="block px-4 py-2 hover:bg-gray-200">Perfil</a>
+                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 hover:bg-gray-200">Dashboard</a>
+                    </div>
+                </div>
                 <div class="user-menu" x-data="{ open: false }">
                     <div class="username cursor-pointer" @click="open = !open">
                         {{ auth()->user()->name }}
