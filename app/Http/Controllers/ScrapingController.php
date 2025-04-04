@@ -41,13 +41,18 @@ class ScrapingController extends Controller
             $position = $playerElement->attr('data-posicion') ?? 'N/A';
             $team_id = $playerElement->attr('data-equipo') ?? 'N/A';
             $points_season = $playerElement->attr('data-puntostemporada') ?? 0;
-            $points_1 = $playerElement->attr('data-puntos1') ?? 0;
-            $points_3 = $playerElement->attr('data-puntos3') ?? 0;
-            $points_5 = $playerElement->attr('data-puntos5') ?? 0;
             $average_points = $playerElement->attr('data-mediatemporada') ?? 0.0;
             $image_url = $playerElement->filter('.fotocontainer img')->attr('data-src')
                 ?? $playerElement->filter('.fotocontainer img')->attr('src')
                 ?? '';
+
+            // Extraer el valor actual y la diferencia
+            $valorActualText = $playerElement->filter('.valor-actual')->text();
+            preg_match('/Valor act: ([\d.]+) \(([\+\-\d.]+)\)/', $valorActualText, $matches);
+
+            $valor_actual = isset($matches[1]) ? str_replace('.', '', $matches[1]) : 0; // Valor actual
+            $diferencia = isset($matches[2]) ? str_replace('.', '', $matches[2]) : 0; // Diferencia
+
 
             // Extraer el nombre del equipo
             $team_name = $playerElement->filter('.equipo span')->count() > 0
@@ -76,7 +81,9 @@ class ScrapingController extends Controller
                     'posicion' => trim($position),
                     'equipo_id' => $equipo->id,
                     'imagen' => $image_url,
-                    'ratio' => $playerElement->attr('data-ratio') ?? 0
+                    'ratio' => $playerElement->attr('data-ratio') ?? 0,
+                    'valor_actual' => $valor_actual,
+                    'diferencia' => $diferencia
                 ]
             );
 
@@ -91,20 +98,7 @@ class ScrapingController extends Controller
                 ]
             );
 
-            // Crear o actualizar las estadísticas de partidos recientes
-            foreach (['1', '3', '5'] as $rango) {
-                // Modificar el valor de rango para que coincida con los valores definidos en el ENUM
-                $rangoTexto = "{$rango} partido" . ($rango != '1' ? 's' : '');
 
-                EstadisticaPartidosRecientes::updateOrCreate(
-                    ['jugador_id' => $jugador->id, 'rango' => $rangoTexto],
-                    [
-                        'puntos' => $playerElement->attr("data-puntos{$rango}") ?? 0,
-                        'partidos_jugados' => $playerElement->attr("data-jugados{$rango}") ?? 0,
-                        'media' => $playerElement->attr("data-media{$rango}") ?? 0.0
-                    ]
-                );
-            }
         });
 
         return response()->json(['message' => 'Datos actualizados correctamente']);
