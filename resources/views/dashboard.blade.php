@@ -13,7 +13,7 @@
                                 <h2 class="text-lg font-bold">{{ $player->nombre }}</h2>
                                 <p
                                     class="text-s
-                                                                                                           m text-gray-600 dark:text-gray-400">
+                                                                                                                                   m text-gray-600 dark:text-gray-400">
                                     Equipo: <img class="inline w-6 h-6" src="{{ $player->equipo->escudo }}"
                                         alt="{{ $player->equipo->nombre }}">
                                 </p>
@@ -22,11 +22,6 @@
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Valor: {{ $player->valor }}</p>
                                 <p class="text-sm text-gray-900 dark:text-gray-100">Puntos:
                                     {{ $player->estadisticasTemporada->puntos_totales ?? 'N/A' }}
-                                </p>
-                                <p class="text-sm text-gray-900 dark:text-gray-100">Puntos recientes:
-                                    @foreach ($player->estadisticasPartidosRecientes->take(5) as $estadistica)
-                                        {{ $estadistica->puntos }},<!--Esto seguardara en estadisticas temporada-->
-                                    @endforeach
                                 </p>
                             </div>
                         </div>
@@ -45,6 +40,7 @@ librerias necesarias: composer require symfony/browser-kit symfony/http-client s
 npm install
 npm run build
 
+php artisan migrate:fresh -- importante
 
 php artisan serve
 http://localhost:8000/dashboard

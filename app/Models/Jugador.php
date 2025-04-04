@@ -9,7 +9,14 @@ class Jugador extends Model
     use HasFactory;
 
     protected $table = 'jugadores';
-    protected $fillable = ['id', 'nombre', 'posicion', 'equipo_id', 'imagen', 'ratio'];
+    protected $fillable = [
+        'nombre',
+        'posicion',
+        'equipo_id',
+        'imagen',
+        'valor_actual',
+        'diferencia',
+    ];
 
     public function equipo()
     {
@@ -19,15 +26,5 @@ class Jugador extends Model
     public function estadisticasTemporada()
     {
         return $this->hasOne(EstadisticaTemporada::class);
-    }
-
-    public function estadisticasPartidosRecientes()
-    {
-        return $this->hasMany(EstadisticaPartidosRecientes::class);
-    }
-
-    public function rachaPuntos()
-    {
-        return $this->hasMany(RachaPuntos::class);
     }
 }

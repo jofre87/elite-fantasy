@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->integer('puntos_totales');
             $table->decimal('media_puntos', 5, 2);
             $table->integer('partidos_jugados');
+            $table->json('racha_puntos'); // Añadir campo JSON
             $table->timestamps();
         });
     }

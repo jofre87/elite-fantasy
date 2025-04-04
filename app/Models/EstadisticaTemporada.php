@@ -9,7 +9,7 @@ class EstadisticaTemporada extends Model
     use HasFactory;
 
     protected $table = 'estadisticas_temporada';
-    protected $fillable = ['jugador_id', 'puntos_totales', 'media_puntos', 'partidos_jugados'];
+    protected $fillable = ['jugador_id', 'puntos_totales', 'media_puntos', 'partidos_jugados', 'racha_puntos'];
 
     public function jugador()
     {

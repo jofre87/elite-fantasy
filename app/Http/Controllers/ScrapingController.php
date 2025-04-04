@@ -25,6 +25,21 @@ class ScrapingController extends Controller
         // Descargar y analizar el HTML de la página de destino
         $crawler = $browser->request('GET', 'https://www.futbolfantasy.com/analytics/laliga-fantasy/puntos');
 
+        // Descargar y analizar el HTML de la página de mercado (NUEVO)
+        $crawlerMercado = $browser->request('GET', 'https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado');
+        $valoresMercado = [];
+
+        // Extraer valores de mercado
+        $crawlerMercado->filter('.elemento_jugador')->each(function (Crawler $playerElement) use (&$valoresMercado) {
+            $player_id = $playerElement->attr('data-nombre') ?? null;
+            if ($player_id) {
+                $valoresMercado[$player_id] = [
+                    'valor_actual' => $playerElement->attr('data-valor') ?? 0,
+                    'diferencia' => $playerElement->attr('data-diferencia1') ?? 0
+                ];
+            }
+        });
+
         // Iterar sobre todos los jugadores
         $crawler->filter('.elemento_jugador')->each(function (Crawler $playerElement) {
 
@@ -46,13 +61,10 @@ class ScrapingController extends Controller
                 ?? $playerElement->filter('.fotocontainer img')->attr('src')
                 ?? '';
 
-            // Extraer el valor actual y la diferencia
-            $valorActualText = $playerElement->filter('.valor-actual')->text();
-            preg_match('/Valor act: ([\d.]+) \(([\+\-\d.]+)\)/', $valorActualText, $matches);
 
-            $valor_actual = isset($matches[1]) ? str_replace('.', '', $matches[1]) : 0; // Valor actual
-            $diferencia = isset($matches[2]) ? str_replace('.', '', $matches[2]) : 0; // Diferencia
-
+            // Extraer valores de mercado (si existen)
+            $valor_actual = $valoresMercado[$name]['valor_actual'] ?? 0;
+            $diferencia = $valoresMercado[$name]['diferencia'] ?? 0;
 
             // Extraer el nombre del equipo
             $team_name = $playerElement->filter('.equipo span')->count() > 0

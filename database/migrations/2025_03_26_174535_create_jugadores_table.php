@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('posicion', 50);
             $table->foreignId('equipo_id')->nullable()->constrained('equipos')->onDelete('set null');
             $table->string('imagen', 255)->nullable();
-            $table->decimal('ratio', 10, 3)->nullable();
+            $table->decimal('valor_actual', 15, 2)->nullable(); // Valor actual del jugador
+            $table->decimal('diferencia', 15, 2)->nullable(); // Diferencia con el día anterior
             $table->timestamps();
         });
     }
