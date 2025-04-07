@@ -13,15 +13,21 @@
                                 <h2 class="text-lg font-bold">{{ $player->nombre }}</h2>
                                 <p
                                     class="text-s
-                                                                                                                                   m text-gray-600 dark:text-gray-400">
+                                                                                                                                                                                                                                   m text-gray-600 dark:text-gray-400">
                                     Equipo: <img class="inline w-6 h-6" src="{{ $player->equipo->escudo }}"
                                         alt="{{ $player->equipo->nombre }}">
                                 </p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400">Posición: {{ $player->posicion }}</p>
 
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Valor: {{ $player->valor }}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Valor:
+                                    {{ number_format($player->valor_actual, 0, ',', '.') }}
+                                    ({{ number_format($player->diferencia, 0, ',', '.') }})
+                                </p>
                                 <p class="text-sm text-gray-900 dark:text-gray-100">Puntos:
-                                    {{ $player->estadisticasTemporada->puntos_totales ?? 'N/A' }}
+                                    {{ $player->estadisticasTemporada->puntos_totales }}
+                                </p>
+                                <p class="text-sm text-gray-900 dark:text-gray-100">Ultimos Puntos:
+                                    {{ $player->estadisticasTemporada->racha_puntos }}
                                 </p>
                             </div>
                         </div>

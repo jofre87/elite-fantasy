@@ -41,7 +41,7 @@ class ScrapingController extends Controller
         });
 
         // Iterar sobre todos los jugadores
-        $crawler->filter('.elemento_jugador')->each(function (Crawler $playerElement) {
+        $crawler->filter('.elemento_jugador')->each(function (Crawler $playerElement) use ($valoresMercado) {
 
             // Extraer el ID del jugador desde la clase CSS
             preg_match('/jugador-(\d+)/', $playerElement->attr('class'), $matches);
