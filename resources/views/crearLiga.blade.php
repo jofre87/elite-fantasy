@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div class="min-h-screen bg-white flex flex-col items-center justify-start py-12 px-4">
 
-        <div class="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
+        <div class="flex flex-wrap justify-center gap-4 w-full max-w-6xl">
             <!-- Tarjeta: Crear Liga -->
             <div class="relative text-black rounded-lg p-6 w-[600px] h-[700px] shadow-lg mt-4" style="background-color: #AD97C8;">
                 <!-- Título -->
