@@ -29,9 +29,14 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 require __DIR__ . '/auth.php';
 
 // Ruta para mostrar la vista de crear liga
-Route::get('/crear-liga', function () {
+Route::get('/crear-unir', function () {
     return view('crearLiga');
 })->name('league.create');
 
 // Ruta para manejar el formulario de creación de liga
-Route::post('/crear-liga', [LeagueController::class, 'store'])->name('league.store');
+Route::post('/crear-unir', [LeagueController::class, 'store'])->name('league.store');
+
+// Ruta para mostrar el formulario de creación de liga
+Route::get('/crear', function () {
+    return view('crear');
+})->name('league.form');
