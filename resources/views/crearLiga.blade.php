@@ -4,7 +4,7 @@
         <h1 class="text-2xl font-bold mb-8">Gestión de Ligas</h1>
 
         <!-- Contenedor principal para alinear los divs horizontalmente -->
-        <div class="flex flex-wrap justify-center gap-8">
+        <div class="flex flex-wrap justify-center gap-6">
             <!-- Contenedor con fondo para crear una liga -->
             <div class="w-full max-w-md p-6 rounded-lg shadow-md bg-blue-50">
                 <h2 class="text-xl font-semibold mb-4 text-blue-700">Crear Liga</h2>
