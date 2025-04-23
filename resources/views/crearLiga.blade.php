@@ -19,7 +19,7 @@
 
                 <!-- Botón -->
                 <div class="flex justify-center">
-                    <a href="{{ route('league.form') }}"
+                    <a href="{{ route('crear.form') }}"
                         style="background-color: #4A5568; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; font-size: 1rem; text-align: center; display: inline-block; transition: background-color 0.3s ease, transform 0.2s ease;"
                         onmouseover="this.style.backgroundColor='#2D3748'; this.style.transform='scale(1.05)';"
                         onmouseout="this.style.backgroundColor='#4A5568'; this.style.transform='scale(1)';">
@@ -44,12 +44,12 @@
 
                 <!-- Botón -->
                 <div class="flex justify-center">
-                    <button
-                        style="background-color: #4A5568; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease;"
+                    <a href="{{ route('unir.form') }}"
+                        style="background-color: #4A5568; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; font-size: 1rem; text-align: center; display: inline-block; transition: background-color 0.3s ease, transform 0.2s ease;"
                         onmouseover="this.style.backgroundColor='#2D3748'; this.style.transform='scale(1.05)';"
                         onmouseout="this.style.backgroundColor='#4A5568'; this.style.transform='scale(1)';">
                         UNIRTE
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
