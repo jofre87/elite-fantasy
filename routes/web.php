@@ -5,6 +5,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\ScrapingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeagueController;
+use App\Http\Controllers\UnirteLiga;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,8 +36,13 @@ Route::get('/crear-unir', function () {
 
 // Ruta para manejar el formulario de creación de liga
 Route::post('/crear-unir', [LeagueController::class, 'store'])->name('league.store');
+Route::post('/liga-codigo', [UnirteLiga::class, 'store'])->name('league.code');
 
 // Ruta para mostrar el formulario de creación de liga
 Route::get('/crear', function () {
     return view('crear');
-})->name('league.form');
+})->name('crear.form');
+
+Route::get('/unirte', function () {
+    return view('unirte');
+})->name('unir.form');
