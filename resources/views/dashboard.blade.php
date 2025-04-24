@@ -13,7 +13,7 @@
                                 <h2 class="text-lg font-bold">{{ $player->nombre }}</h2>
                                 <p
                                     class="text-s
-                                                                                                                                                                                                                                   m text-gray-600 dark:text-gray-400">
+                                                                                                                                                                                                                                                           m text-gray-600 dark:text-gray-400">
                                     Equipo: <img class="inline w-6 h-6" src="{{ $player->equipo->escudo }}"
                                         alt="{{ $player->equipo->nombre }}">
                                 </p>
@@ -40,14 +40,14 @@
 
 <!--
 CMD:
-cd C:\xampp\htdocs\elite-fantasy
 node y composer
 librerias necesarias: composer require symfony/browser-kit symfony/http-client symfony/dom-crawler
 npm install
 npm run build
 
-php artisan migrate:fresh -- importante
+php artisan migrate:fresh -- importante para resetear base de datos
 
+C:\>cd Users\usuari\Documents\GitHub\elite-fantasy
 php artisan serve
 http://localhost:8000/dashboard
 http://localhost:8000/scrape-players
