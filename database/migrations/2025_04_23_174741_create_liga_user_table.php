@@ -10,10 +10,16 @@ class CreateLigaUserTable extends Migration
     {
         Schema::create('liga_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('liga_id')->constrained('ligas')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
+            // Cambiado de foreignId() a string() para que coincida con el ID personalizado de ligas
+            $table->string('liga_id');
+            $table->unsignedBigInteger('user_id');
             $table->decimal('saldo', 15, 2);
             $table->timestamps();
+
+            // Claves foráneas
+            $table->foreign('liga_id')->references('id')->on('ligas')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

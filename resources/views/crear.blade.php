@@ -21,12 +21,20 @@
                             placeholder="Introduce el nombre de la liga" required>
                     </div>
 
-                    <!-- Descripción -->
+                    <!-- Contraseña -->
                     <div class="mb-4">
-                        <label for="description" class="block text-sm font-medium text-black">Descripción</label>
-                        <textarea name="description" id="description" rows="5"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg px-6 py-4 bg-white text-gray-700"
-                            placeholder="Introduce una descripción opcional"></textarea>
+                        <label for="password" class="block text-sm font-medium text-black">Contraseña</label>
+                        <input type="password" name="password" id="password"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg px-4 py-3 bg-white text-gray-700"
+                            placeholder="Introduce la contraseña para unirte a la liga" required>
+                    </div>
+
+                    <!-- Reparto Inicial -->
+                    <div class="mb-4">
+                        <label for="initial_share" class="block text-sm font-medium text-black">Reparto Inicial</label>
+                        <input type="number" name="initial_share" id="initial_share"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg px-4 py-3 bg-white text-gray-700"
+                            placeholder="Introduce el reparto inicial en número" required>
                     </div>
 
                     <!-- Botón de Crear -->
