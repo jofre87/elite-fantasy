@@ -23,6 +23,14 @@
                             oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/^(.{3})(.{0,3})/, '$1-$2')">
                     </div>
 
+                    <!-- Contraseña -->
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium text-black">Contraseña</label>
+                        <input type="password" name="password" id="password"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg px-4 py-3 bg-white text-gray-700"
+                            placeholder="Introduce la contraseña de la liga" required>
+                    </div>
+
                     <!-- Botón -->
                     <div class="flex justify-center">
                         <button type="submit"

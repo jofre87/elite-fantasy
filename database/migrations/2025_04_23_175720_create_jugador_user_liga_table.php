@@ -10,11 +10,19 @@ class CreateJugadorUserLigaTable extends Migration
     {
         Schema::create('jugador_user_liga', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('jugador_id')->constrained('jugadores')->onDelete('cascade');
-            $table->foreignId('liga_id')->constrained('ligas')->onDelete('cascade');
+
+            // Foreign keys
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('jugador_id');
+            $table->string('liga_id'); // Ahora string para coincidir con ligas.id
+
             $table->decimal('comprado_en', 15, 2);
             $table->timestamps();
+
+            // Constraints
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('jugador_id')->references('id')->on('jugadores')->onDelete('cascade');
+            $table->foreign('liga_id')->references('id')->on('ligas')->onDelete('cascade');
         });
     }
 

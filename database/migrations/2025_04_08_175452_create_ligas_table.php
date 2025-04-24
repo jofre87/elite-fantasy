@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,15 +9,17 @@ class CreateLigasTable extends Migration
     public function up()
     {
         Schema::create('ligas', function (Blueprint $table) {
-            $table->id(); // Crea una columna 'id' como clave primaria
+            $table->string('id')->primary(); // ID personalizado tipo 'ABC-123'
             $table->string('nombre', 100);
-            $table->foreignId('administrador_id')->constrained('users')->onDelete('cascade'); // Relación con la tabla 'users'
-            $table->timestamps(); // Crea columnas 'created_at' y 'updated_at'
+            $table->string('password'); // Campo para pruebas, sin cifrado
+            $table->decimal('saldo_inicial', 15, 2)->default(0); // Nuevo campo para saldo inicial
+            $table->foreignId('administrador_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('ligas'); // Elimina la tabla si se revierte la migración
+        Schema::dropIfExists('ligas');
     }
 }
