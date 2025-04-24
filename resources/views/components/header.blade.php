@@ -105,7 +105,7 @@
                         ☰
                     </button>
                     <!-- Opciones del desplegable -->
-                    <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10" x-show="open"
+                    <div class="absolute left-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10" x-show="open"
                         @click.away="open = false">
                         <a href="{{ route('settings.profile') }}" class="block px-4 py-2 hover:bg-gray-200">Perfil</a>
                         <a href="{{ route('dashboard') }}" class="block px-4 py-2 hover:bg-gray-200">Dashboard</a>

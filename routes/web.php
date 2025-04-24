@@ -6,6 +6,7 @@ use App\Http\Controllers\ScrapingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\UnirteLiga;
+use App\Http\Controllers\MarketController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,3 +47,5 @@ Route::get('/crear', function () {
 Route::get('/unirte', function () {
     return view('unirte');
 })->name('unir.form');
+
+Route::get('/mercado', [MarketController::class, 'index'])->name('market.index');
