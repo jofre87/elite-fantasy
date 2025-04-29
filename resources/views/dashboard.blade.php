@@ -16,7 +16,7 @@
 
         {{-- Clasificación LigaUser reorganizada en lugar adecuado --}}
         <div class="lg:col-span-1 bg-white dark:bg-neutral-800 p-4 rounded-xl shadow mt-6 border border-purple-300">
-            <h2 class="font-bold text-center text-white bg-purple-700 p-2 rounded-t">CLASIFICACIÓN</h2>
+            <h2 class="font-bold text-center text-black bg-purple-700 p-2 rounded-t">CLASIFICACIÓN</h2>
             <table class="w-full text-sm text-left text-gray-700 dark:text-gray-200 mt-2 table-fixed">
                 <thead class="uppercase bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200">
                     <tr>
@@ -37,32 +37,19 @@
             </table>
         </div>
 
-        {{-- Máximos Goleadores --}}
-        <div class="bg-gray-100 text-black p-4 rounded-xl">
-            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Máximos Goleadores</h2>
-            <ul class="mt-2 space-y-1">
-                @foreach ($goleadores as $i => $jugador)
-                    <li class="flex justify-between border-b pb-1">
-                        <span>{{ $i + 1 }}. {{ $jugador->nombre }}</span>
-                        <span>{{ $jugador->estadisticasTemporada->goles ?? 0 }} goles</span>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-
         {{-- Jornada (Estática por ahora) --}}
         <div class="bg-gray-100 text-black p-4 rounded-xl">
-            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Jornada 24</h2>
+            <h2 class="font-bold text-center bg-purple-700 text-black p-2 rounded">Jornada 24</h2>
             <div class="grid grid-cols-3 gap-2 mt-2">
                 @foreach (range(1, 9) as $i)
-                    <div class="bg-black text-white p-2 rounded text-center text-xs">24/3</div>
+                    <div class="bg-black text-black p-2 rounded text-center text-xs">24/3</div>
                 @endforeach
             </div>
         </div>
 
         {{-- Clasificación LaLiga (Ejemplo Estático) --}}
         <div class="lg:col-span-1 bg-gray-100 text-black p-4 rounded-xl">
-            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Clasificación LaLiga</h2>
+            <h2 class="font-bold text-center bg-purple-700 text-black p-2 rounded">Clasificación LaLiga</h2>
             <ul class="mt-2 space-y-1 text-sm">
                 @foreach (range(1, 20) as $i)
                     <li class="flex justify-between border-b pb-1">
