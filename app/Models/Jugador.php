@@ -10,6 +10,7 @@ class Jugador extends Model
 
     protected $table = 'jugadores';
     protected $fillable = [
+        'id', // Asegúrate de permitir el ID personalizado
         'nombre',
         'posicion',
         'equipo_id',
@@ -17,6 +18,9 @@ class Jugador extends Model
         'valor_actual',
         'diferencia',
     ];
+
+    public $incrementing = false;
+    protected $keyType = 'int';
 
     public function equipo()
     {
