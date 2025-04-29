@@ -6,6 +6,7 @@ use App\Http\Controllers\ScrapingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\UnirteLiga;
+use App\Http\Controllers\MarketController;
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de bienvenida

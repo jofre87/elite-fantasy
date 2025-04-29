@@ -105,7 +105,7 @@
                         ☰
                     </button>
                     <!-- Opciones del desplegable -->
-                    <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10" x-show="open"
+                    <div class="absolute left-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10" x-show="open"
                         @click.away="open = false">
                         <a href="{{ route('settings.profile') }}" class="block px-4 py-2 hover:bg-gray-200">Perfil</a>
                         <a href="{{ route('dashboard') }}" class="block px-4 py-2 hover:bg-gray-200">Dashboard</a>
@@ -143,7 +143,7 @@
                         </a>
                     </li>
                     <li class="flex flex-col items-center">
-                        <a href="#" class="flex flex-col items-center">
+                        <a href="{{ route('market.index') }}" class="flex flex-col items-center">
                             <img src="/img/mercado.png" alt="Mercado" class="w-8 h-8 mb-2">
                             <span class="text-sm font-medium text-white hover:text-gray-300">Mercado</span>
                         </a>
