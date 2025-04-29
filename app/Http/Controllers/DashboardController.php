@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LigaUser;
 use App\Models\Jugador;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Obtener todos los jugadores de la base de datos
-        $players = Jugador::all();  // O puedes usar métodos como ->with() si quieres relaciones, o ->where() si necesitas filtrar
+        // Clasificación ordenada por saldo
+        $ligaUsers = LigaUser::with('user')->orderByDesc('saldo')->get();
 
-        // Pasar los jugadores a la vista
-        return view('dashboard', compact('players'));
+        // Todos los jugadores con equipo y estadísticas
+        $jugadores = Jugador::with('equipo', 'estadisticasTemporada')->get();
+
+        // Top 10 goleadores
+        $goleadores = $jugadores->sortByDesc(fn($j) => $j->estadisticasTemporada->goles ?? 0)->take(10);
+
+        // Pasar datos a la vista
+        return view('dashboard', compact('ligaUsers', 'goleadores'));
     }
 }

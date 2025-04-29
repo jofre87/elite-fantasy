@@ -1,42 +1,83 @@
 <x-layouts.app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <!-- Apartado Plantilla -->
-        <div class="grid auto-rows-min gap-4">
-            <h2>Jugador</h2>
-            @foreach ($players as $player)
-                @if ($player->nombre == 'kylian mbappe')
-                    <div
-                        class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-4 bg-white dark:bg-neutral-800">
-                        <div class="flex items-center gap-4">
-                            <img class="w-16 h-16 rounded-full" src="{{ $player->imagen }}" alt="{{ $player->nombre }}">
-                            <div>
-                                <h2 class="text-lg font-bold">{{ $player->nombre }}</h2>
-                                <p
-                                    class="text-s
-                                                                                                                                                                                                                                                           m text-gray-600 dark:text-gray-400">
-                                    Equipo: <img class="inline w-6 h-6" src="{{ $player->equipo->escudo }}"
-                                        alt="{{ $player->equipo->nombre }}">
-                                </p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Posición: {{ $player->posicion }}</p>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 text-black p-4 bg-blue-900">
 
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Valor:
-                                    {{ number_format($player->valor_actual, 0, ',', '.') }}
-                                    ({{ number_format($player->diferencia, 0, ',', '.') }})
-                                </p>
-                                <p class="text-sm text-gray-900 dark:text-gray-100">Puntos:
-                                    {{ $player->estadisticasTemporada->puntos_totales }}
-                                </p>
-                                <p class="text-sm text-gray-900 dark:text-gray-100">Ultimos Puntos:
-                                    {{ $player->estadisticasTemporada->racha_puntos }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endforeach
+        {{-- Panel Superior dentro de un recuadro --}}
+        <div class="lg:col-span-4 bg-purple-700 p-4 rounded-xl flex justify-between items-center border-2 border-purple-800">
+            <div>
+                <p class="text-sm">Nombre de equipo</p>
+                <p class="text-xl font-bold">1º | {{ $ligaUsers->first()->user->puntos ?? '0' }} pts |
+                    {{ number_format($ligaUsers->first()->saldo, 2, ',', '.') }}€</p>
+            </div>
+            <div>
+                <p class="text-sm text-right">Valor de tu equipo:</p>
+                <p class="text-xl font-bold text-right">65M€</p> {{-- Ajusta esto según sea necesario --}}
+            </div>
         </div>
+
+        {{-- Clasificación LigaUser reorganizada en lugar adecuado --}}
+        <div class="lg:col-span-1 bg-white dark:bg-neutral-800 p-4 rounded-xl shadow mt-6 border border-purple-300">
+            <h2 class="font-bold text-center text-white bg-purple-700 p-2 rounded-t">CLASIFICACIÓN</h2>
+            <table class="w-full text-sm text-left text-gray-700 dark:text-gray-200 mt-2 table-fixed">
+                <thead class="uppercase bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200">
+                    <tr>
+                        <th class="px-2 py-1 w-10 text-center">#</th>
+                        <th class="px-2 py-1 w-40">Usuario</th>
+                        <th class="px-2 py-1 w-16 text-center">Puntos</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
+                    @foreach ($ligaUsers as $index => $entry)
+                        <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
+                            <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
+                            <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
+                            <td class="px-2 py-1 text-center">{{ $entry->user->puntos ?? 0 }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Máximos Goleadores --}}
+        <div class="bg-gray-100 text-black p-4 rounded-xl">
+            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Máximos Goleadores</h2>
+            <ul class="mt-2 space-y-1">
+                @foreach ($goleadores as $i => $jugador)
+                    <li class="flex justify-between border-b pb-1">
+                        <span>{{ $i + 1 }}. {{ $jugador->nombre }}</span>
+                        <span>{{ $jugador->estadisticasTemporada->goles ?? 0 }} goles</span>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+
+        {{-- Jornada (Estática por ahora) --}}
+        <div class="bg-gray-100 text-black p-4 rounded-xl">
+            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Jornada 24</h2>
+            <div class="grid grid-cols-3 gap-2 mt-2">
+                @foreach (range(1, 9) as $i)
+                    <div class="bg-black text-white p-2 rounded text-center text-xs">24/3</div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Clasificación LaLiga (Ejemplo Estático) --}}
+        <div class="lg:col-span-1 bg-gray-100 text-black p-4 rounded-xl">
+            <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Clasificación LaLiga</h2>
+            <ul class="mt-2 space-y-1 text-sm">
+                @foreach (range(1, 20) as $i)
+                    <li class="flex justify-between border-b pb-1">
+                        <span>{{ $i }}. Equipo</span>
+                        <span>{{ rand(10, 90) }} pts</span>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+
     </div>
 </x-layouts.app>
+
+
+
 
 <!--
 CMD:
