@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
         return view('unirte');
     })->name('unir.form');
 
+    Route::get('/mercado', [MarketController::class, 'index'])->name('market.index');
     // Ruta del scraping
     Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
 });
