@@ -143,7 +143,7 @@
                         </a>
                     </li>
                     <li class="flex flex-col items-center">
-                        <a href="#" class="flex flex-col items-center">
+                        <a href="{{ route('market.index') }}" class="flex flex-col items-center">
                             <img src="/img/mercado.png" alt="Mercado" class="w-8 h-8 mb-2">
                             <span class="text-sm font-medium text-white hover:text-gray-300">Mercado</span>
                         </a>
