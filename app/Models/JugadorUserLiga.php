@@ -13,6 +13,7 @@ class JugadorUserLiga extends Model
         'user_id',
         'liga_id',
         'comprado_en',
+        'en_once_inicial',
     ];
 
     public function jugador()
