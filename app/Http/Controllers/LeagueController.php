@@ -22,7 +22,7 @@ class LeagueController extends Controller
         $liga = Liga::create([
             'nombre' => $validated['league_name'],
             'password' => bcrypt($validated['password']),
-            'saldo_inicial' => $validated['initial_share'],
+            'saldo_inicial' => $validated['initial_share'] * 1000000,
             'administrador_id' => auth()->id(),
         ]);
 
@@ -30,7 +30,7 @@ class LeagueController extends Controller
         LigaUser::create([
             'liga_id' => $liga->id, // Ahora usamos el ID generado automáticamente
             'user_id' => auth()->id(),
-            'saldo' => $validated['initial_share'],
+            'saldo' => $validated['initial_share'] * 1000000,
         ]);
 
         // Redirige al usuario con un mensaje de éxito

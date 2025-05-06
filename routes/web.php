@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\UnirteLiga;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\AlineacionController;
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de bienvenida
@@ -40,6 +41,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mercado', [MarketController::class, 'index'])->name('market.index');
     // Ruta del scraping
     Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
+
+    Route::post('/comprar/{jugadorId}', [MarketController::class, 'comprarJugador'])->name('jugador.comprar');
+
+    // Ruta para ver la alineación
+    Route::get('/alineacion', [AlineacionController::class, 'index'])->name('alineacion.index');
+
+    // Ruta para intercambiar jugadores
+    Route::post('/alineacion/intercambiar', [AlineacionController::class, 'intercambiar'])->name('alineacion.intercambiar');
 });
 
 // Rutas de autenticación (login, registro, etc.)

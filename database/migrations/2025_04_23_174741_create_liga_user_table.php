@@ -15,6 +15,7 @@ class CreateLigaUserTable extends Migration
             $table->string('liga_id');
             $table->unsignedBigInteger('user_id');
             $table->decimal('saldo', 15, 2);
+            $table->integer('puntos_totales')->default(0);
             $table->timestamps();
 
             // Claves foráneas

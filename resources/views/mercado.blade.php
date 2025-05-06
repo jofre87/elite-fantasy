@@ -7,6 +7,17 @@
             <button class="bg-gray-200 text-black px-4 py-2 rounded-md hover:bg-blue-200 transition">Ofertas</button>
             <button class="bg-gray-200 text-black px-4 py-2 rounded-md hover:bg-blue-200 transition">Pujas</button>
         </div>
+        @if (session('error'))
+            <div class="bg-red-500 text-white px-4 py-2 rounded mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="bg-green-500 text-white px-4 py-2 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- Grid de jugadores -->
         <div class="p-4 bg-blue-900 rounded-xl flex-1 overflow-auto">
@@ -30,7 +41,7 @@
                         }
                     @endphp
 
-                    <div class="bg-white rounded-xl p-4 shadow-md flex flex-col gap-3">
+                    <div class="bg-white rounded-xl p-4 shadow-md flex flex-col gap-3 border border-gray-200">
                         <!-- Cabecera: imagen, nombre, escudo, posición -->
                         <div class="flex items-center gap-4">
                             <img src="{{ $player->imagen }}" alt="{{ $player->nombre }}"
@@ -42,8 +53,7 @@
                                     <img src="{{ $player->equipo->escudo }}" class="w-5 h-5"
                                         alt="{{ $player->equipo->nombre }}">
                                 </div>
-                                <span
-                                    class="text-xs text-black px-2 py-0.5 rounded-full w-max mt-1 {{ $posColor }}">
+                                <span class="text-xs text-black px-2 py-0.5 rounded-full w-max mt-1 {{ $posColor }}">
                                     {{ $player->posicion }}
                                     <div>
                                         {{ $player->estadisticasTemporada->puntos_totales ?? 0 }}
@@ -64,11 +74,13 @@
                                         {{ number_format(abs($player->diferencia), 0, ',', '.') }} €</span>
                                 @endif
                                 <div class="mt-2 flex justify-end">
-                                    <button
-                                        class="bg-blue-700 text-black text-xs px-3 py-1 rounded hover:bg-blue-800 transition"
-                                        @click="$dispatch('open-bid-modal', {{ $player->id }})">
-                                        Pujar
-                                    </button>
+                                    <form method="POST" action="{{ route('jugador.comprar', $player->id) }}">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-success bg-gray-200 border border-gray-400 rounded-lg px-4 py-2 hover:bg-gray-300 transition">
+                                            Comprar
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

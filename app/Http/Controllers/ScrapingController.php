@@ -28,7 +28,9 @@ class ScrapingController extends Controller
 
         // Extraer valores de mercado
         $crawlerMercado->filter('.elemento_jugador')->each(function (Crawler $playerElement) use (&$valoresMercado) {
-            $player_id = $playerElement->attr('data-nombre') ?? null;
+            preg_match('/(\d+)/', $playerElement->attr('onclick'), $matches);
+            $player_id = $matches[1] ?? null;
+
             if ($player_id) {
                 $valoresMercado[$player_id] = [
                     'valor_actual' => $playerElement->attr('data-valor') ?? 0,
@@ -60,8 +62,8 @@ class ScrapingController extends Controller
 
 
             // Extraer valores de mercado (si existen)
-            $valor_actual = $valoresMercado[$name]['valor_actual'] ?? 0;
-            $diferencia = $valoresMercado[$name]['diferencia'] ?? 0;
+            $valor_actual = $valoresMercado[$player_id]['valor_actual'] ?? 0;
+            $diferencia = $valoresMercado[$player_id]['diferencia'] ?? 0;
 
             // Extraer el nombre del equipo
             $team_name = $playerElement->filter('.equipo span')->count() > 0

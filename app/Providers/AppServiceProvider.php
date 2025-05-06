@@ -58,6 +58,9 @@ class AppServiceProvider extends ServiceProvider
             'login',
             'register',
             null,
+            'settings.profile',
+            'settings.password',
+            'settings.appearance',
         ];
 
         $currentRoute = Route::current()?->getName();
