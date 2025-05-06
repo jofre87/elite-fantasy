@@ -9,37 +9,126 @@
 
         <!-- Once titular -->
         <div class="p-4 bg-blue-900 rounded-xl">
-            <h2 class="text-lg font-semibold mb-4">Once titular</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                @foreach ($activos as $jugadorUserLiga)
-                                @php
-                                    $jugador = $jugadorUserLiga->jugador;
-                                @endphp
-                                <div onclick="seleccionarJugador({{ $jugador->id }})"
-                                    class="cursor-pointer bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                                    <div class="flex items-center gap-4">
-                                        <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}" class="w-14 h-14 rounded-full">
-                                        <div>
-                                            <div class="font-semibold">{{ $jugador->nombre }}</div>
-                                            <div class="text-sm text-gray-600">Equipo:
-                                                <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
-                                                    alt="{{ $jugador->equipo->nombre }}">
+            <h2 class="text-lg font-semibold mb-4 text-center">Once titular</h2>
+            <div class="grid grid-cols-4 gap-4">
+                <!-- Porteros -->
+                <div>
+                    <h3 class="text-md font-semibold mb-2 text-center">Portero</h3>
+                    @foreach ($activos as $jugadorUserLiga)
+                                        @php
+                                            $jugador = $jugadorUserLiga->jugador;
+                                        @endphp
+                                        @if ($jugador->posicion === 'Portero')
+                                            <div class="w-1/4 cursor-pointer bg-white rounded-xl p-4 shadow-md border border-gray-200"
+                                                onclick="seleccionarJugador({{ $jugador->id }})">
+                                                <div class="flex flex-col items-center gap-4">
+                                                    <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}"
+                                                        class="w-14 h-14 rounded-full">
+                                                    <div class="font-semibold text-center">{{ $jugador->nombre }}</div>
+                                                </div>
                                             </div>
-                                            <div class="text-sm text-gray-600">Posición: {{ $jugador->posicion }}</div>
-                                            <div class="text-sm text-gray-600">Valor:
-                                                {{ number_format($jugador->valor_actual, 0, ',', '.') }}
-                                                ({{ number_format($jugador->diferencia, 0, ',', '.') }})
+                                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Defensas -->
+                <div>
+                    <h3 class="text-md font-semibold mb-2 text-center">Defensas</h3>
+                    @foreach ($activos as $jugadorUserLiga)
+                                        @php
+                                            $jugador = $jugadorUserLiga->jugador;
+                                        @endphp
+                                        @if ($jugador->posicion === 'Defensa')
+                                            <div onclick="seleccionarJugador({{ $jugador->id }})"
+                                                class="cursor-pointer bg-white rounded-xl p-4 shadow-md border border-gray-200">
+                                                <div class="flex items-center gap-4">
+                                                    <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}"
+                                                        class="w-14 h-14 rounded-full">
+                                                    <div>
+                                                        <div class="font-semibold">{{ $jugador->nombre }}</div>
+                                                        <div class="text-sm text-gray-600">Equipo:
+                                                            <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
+                                                                alt="{{ $jugador->equipo->nombre }}">
+                                                        </div>
+                                                        <div class="text-sm text-gray-600">Valor:
+                                                            {{ number_format($jugador->valor_actual, 0, ',', '.') }}
+                                                            ({{ number_format($jugador->diferencia, 0, ',', '.') }})
+                                                        </div>
+                                                        <div class="text-sm text-gray-900">Puntos:
+                                                            {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-sm text-gray-900">Puntos:
-                                                {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
+                                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Mediocampistas -->
+                <div>
+                    <h3 class="text-md font-semibold mb-2 text-center">Mediocampistas</h3>
+                    @foreach ($activos as $jugadorUserLiga)
+                                        @php
+                                            $jugador = $jugadorUserLiga->jugador;
+                                        @endphp
+                                        @if ($jugador->posicion === 'Mediocampista')
+                                            <div onclick="seleccionarJugador({{ $jugador->id }})"
+                                                class="cursor-pointer bg-white rounded-xl p-4 shadow-md border border-gray-200">
+                                                <div class="flex items-center gap-4">
+                                                    <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}"
+                                                        class="w-14 h-14 rounded-full">
+                                                    <div>
+                                                        <div class="font-semibold">{{ $jugador->nombre }}</div>
+                                                        <div class="text-sm text-gray-600">Equipo:
+                                                            <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
+                                                                alt="{{ $jugador->equipo->nombre }}">
+                                                        </div>
+                                                        <div class="text-sm text-gray-600">Valor:
+                                                            {{ number_format($jugador->valor_actual, 0, ',', '.') }}
+                                                            ({{ number_format($jugador->diferencia, 0, ',', '.') }})
+                                                        </div>
+                                                        <div class="text-sm text-gray-900">Puntos:
+                                                            {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-sm text-gray-900">Últimos Puntos:
-                                                {{ $jugador->estadisticasTemporada->racha_puntos ?? 'N/A' }}
+                                        @endif
+                    @endforeach
+                </div>
+
+                <!-- Delanteros -->
+                <div>
+                    <h3 class="text-md font-semibold mb-2 text-center">Delanteros</h3>
+                    @foreach ($activos as $jugadorUserLiga)
+                                        @php
+                                            $jugador = $jugadorUserLiga->jugador;
+                                        @endphp
+                                        @if ($jugador->posicion === 'Delantero')
+                                            <div onclick="seleccionarJugador({{ $jugador->id }})"
+                                                class="cursor-pointer bg-white rounded-xl p-4 shadow-md border border-gray-200">
+                                                <div class="flex items-center gap-4">
+                                                    <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}"
+                                                        class="w-14 h-14 rounded-full">
+                                                    <div>
+                                                        <div class="font-semibold">{{ $jugador->nombre }}</div>
+                                                        <div class="text-sm text-gray-600">Equipo:
+                                                            <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
+                                                                alt="{{ $jugador->equipo->nombre }}">
+                                                        </div>
+                                                        <div class="text-sm text-gray-600">Valor:
+                                                            {{ number_format($jugador->valor_actual, 0, ',', '.') }}
+                                                            ({{ number_format($jugador->diferencia, 0, ',', '.') }})
+                                                        </div>
+                                                        <div class="text-sm text-gray-900">Puntos:
+                                                            {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                @endforeach
+                                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
 
@@ -89,7 +178,8 @@
                                         @endphp
                                         <form method="POST" action="{{ route('alineacion.intercambiar') }}">
                                             @csrf
-                                            <input type="hidden" name="activo_id" id="activo_id">
+                                            <!-- Cambiar id por un name único -->
+                                            <input type="hidden" name="activo_id" value="">
                                             <input type="hidden" name="suplente_id" value="{{ $jugador->id }}">
                                             <button type="submit"
                                                 class="block w-full bg-gray-100 hover:bg-blue-100 transition rounded p-2 text-left border border-gray-200 cursor-pointer">
@@ -113,7 +203,12 @@
 
     <script>
         function seleccionarJugador(jugadorId) {
-            document.getElementById('activo_id').value = jugadorId;
+            // Actualizar el valor de activo_id en todos los formularios
+            document.querySelectorAll('input[name="activo_id"]').forEach(input => {
+                input.value = jugadorId;
+            });
+
+            // Mostrar el modal
             document.getElementById('modal').classList.remove('hidden');
             document.getElementById('modal').classList.add('flex');
         }
