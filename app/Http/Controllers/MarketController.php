@@ -79,6 +79,7 @@ class MarketController extends Controller
             'user_id' => $user->id,
             'liga_id' => $ligaUser->liga_id,
             'comprado_en' => Carbon::now(),
+            'en_once_inicial' => false,
         ]);
 
         return back()->with('success', 'Jugador comprado exitosamente.');

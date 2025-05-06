@@ -17,6 +17,7 @@ class CreateJugadorUserLigaTable extends Migration
             $table->string('liga_id'); // Ahora string para coincidir con ligas.id
 
             $table->dateTime('comprado_en');
+            $table->boolean('en_once_inicial')->default(false);
             $table->timestamps();
 
             // Constraints

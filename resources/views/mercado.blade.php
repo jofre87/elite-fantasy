@@ -24,64 +24,67 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
                 @foreach ($players as $player)
-                                @php
-                                    switch ($player->posicion) {
-                                        case 'Delantero':
-                                            $posColor = 'bg-red-600';
-                                            break;
-                                        case 'Centrocampista':
-                                            $posColor = 'bg-green-600';
-                                            break;
-                                        case 'Defensa':
-                                            $posColor = 'bg-blue-600';
-                                            break;
-                                        default:
-                                            $posColor = 'bg-gray-600';
-                                            break;
-                                    }
-                                @endphp
+                    @php
+                        switch ($player->posicion) {
+                            case 'Delantero':
+                                $posColor = 'bg-red-600';
+                                break;
+                            case 'Centrocampista':
+                                $posColor = 'bg-green-600';
+                                break;
+                            case 'Defensa':
+                                $posColor = 'bg-blue-600';
+                                break;
+                            default:
+                                $posColor = 'bg-gray-600';
+                                break;
+                        }
+                    @endphp
 
-                                <div class="bg-white rounded-xl p-4 shadow-md flex flex-col gap-3 border border-gray-200">
-                                    <!-- Cabecera: imagen, nombre, escudo, posición -->
-                                    <div class="flex items-center gap-4">
-                                        <img src="{{ $player->imagen }}" alt="{{ $player->nombre }}"
-                                            class="w-14 h-14 rounded-full border border-gray-300">
+                    <div class="bg-white rounded-xl p-4 shadow-md flex flex-col gap-3 border border-gray-200">
+                        <!-- Cabecera: imagen, nombre, escudo, posición -->
+                        <div class="flex items-center gap-4">
+                            <img src="{{ $player->imagen }}" alt="{{ $player->nombre }}"
+                                class="w-14 h-14 rounded-full border border-gray-300">
 
-                                        <div class="flex flex-col">
-                                            <div class="flex items-center gap-2">
-                                                <span class="text-base font-semibold">{{ $player->nombre }}</span>
-                                                <img src="{{ $player->equipo->escudo }}" class="w-5 h-5"
-                                                    alt="{{ $player->equipo->nombre }}">
-                                            </div>
-                                            <span class="text-xs text-black px-2 py-0.5 rounded-full w-max mt-1 {{ $posColor }}">
-                                                {{ $player->posicion }}
-                                                <div>
-                                                    {{ $player->estadisticasTemporada->puntos_totales ?? 0 }}
-                                                </div>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Valor, diferencia y puntos totales -->
-                                    <div class="flex flex-col gap-1 text-sm text-gray-700">
-                                        <div>
-                                            {{ number_format($player->valor_actual, 0, ',', '.') }} €
-                                            @if ($player->diferencia > 0)
-                                                <span class="text-green-600 ml-1">▲
-                                                    {{ number_format($player->diferencia, 0, ',', '.') }} €</span>
-                                            @else
-                                                <span class="text-red-600 ml-1">▼
-                                                    {{ number_format(abs($player->diferencia), 0, ',', '.') }} €</span>
-                                            @endif
-                                            <div class="mt-2 flex justify-end">
-                                                <form method="POST" action="{{ route('jugador.comprar', $player->id) }}">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-success">Comprar</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="flex flex-col">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-base font-semibold">{{ $player->nombre }}</span>
+                                    <img src="{{ $player->equipo->escudo }}" class="w-5 h-5"
+                                        alt="{{ $player->equipo->nombre }}">
                                 </div>
+                                <span class="text-xs text-black px-2 py-0.5 rounded-full w-max mt-1 {{ $posColor }}">
+                                    {{ $player->posicion }}
+                                    <div>
+                                        {{ $player->estadisticasTemporada->puntos_totales ?? 0 }}
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Valor, diferencia y puntos totales -->
+                        <div class="flex flex-col gap-1 text-sm text-gray-700">
+                            <div>
+                                {{ number_format($player->valor_actual, 0, ',', '.') }} €
+                                @if ($player->diferencia > 0)
+                                    <span class="text-green-600 ml-1">▲
+                                        {{ number_format($player->diferencia, 0, ',', '.') }} €</span>
+                                @else
+                                    <span class="text-red-600 ml-1">▼
+                                        {{ number_format(abs($player->diferencia), 0, ',', '.') }} €</span>
+                                @endif
+                                <div class="mt-2 flex justify-end">
+                                    <form method="POST" action="{{ route('jugador.comprar', $player->id) }}">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-success bg-gray-200 border border-gray-400 rounded-lg px-4 py-2 hover:bg-gray-300 transition">
+                                            Comprar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
 
 

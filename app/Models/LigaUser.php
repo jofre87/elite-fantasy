@@ -12,6 +12,7 @@ class LigaUser extends Model
         'liga_id',
         'user_id',
         'saldo',
+        'puntos_totales',
     ];
 
     public function liga()
