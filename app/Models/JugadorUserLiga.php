@@ -13,7 +13,7 @@ class JugadorUserLiga extends Model
         'user_id',
         'liga_id',
         'comprado_en',
-        'en_once_inicial',
+        'en_once_inicial',//0 si no está en la alineación inicial, 1 si está
     ];
 
     public function jugador()

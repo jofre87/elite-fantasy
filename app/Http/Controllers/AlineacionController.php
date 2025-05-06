@@ -31,19 +31,19 @@ class AlineacionController extends Controller
         $activoId = $request->input('activo_id');
         $suplenteId = $request->input('suplente_id');
 
-        // Cambiar los estados de los jugadores
-        $jugadorActivo = EquiposUsuarioJornada::where('user_id', auth()->id())
+        // Buscar los jugadores en la tabla jugador_user_liga
+        $jugadorActivo = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $activoId)
             ->first();
 
-        $jugadorSuplente = EquiposUsuarioJornada::where('user_id', auth()->id())
+        $jugadorSuplente = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $suplenteId)
             ->first();
 
         if ($jugadorActivo && $jugadorSuplente) {
-            // Intercambiar estado de los jugadores
-            $jugadorActivo->activo = 0;
-            $jugadorSuplente->activo = 1;
+            // Intercambiar el estado de en_once_inicial
+            $jugadorActivo->en_once_inicial = 0;
+            $jugadorSuplente->en_once_inicial = 1;
 
             // Guardar los cambios
             $jugadorActivo->save();
