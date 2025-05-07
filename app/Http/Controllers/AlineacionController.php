@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EquiposUsuarioJornada;
+use App\Models\Liga;
 use App\Models\JugadorUserLiga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,19 +12,25 @@ class AlineacionController extends Controller
 {
     public function index()
     {
-        // Obtener los jugadores activos (en_once_inicial = true)
-        $activos = JugadorUserLiga::with('jugador.equipo', 'jugador.estadisticasTemporada')
-            ->where('user_id', Auth::id())
+        $user = Auth::user();
+
+        // Obtener la liga del usuario
+        $liga = Liga::whereHas('usuarios', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->first();
+
+        // Obtener los jugadores activos y suplentes
+        $activos = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
+            ->where('user_id', $user->id)
             ->where('en_once_inicial', true)
             ->get();
 
-        // Obtener los jugadores no activos (en_once_inicial = false)
-        $noActivos = JugadorUserLiga::with('jugador.equipo', 'jugador.estadisticasTemporada')
-            ->where('user_id', Auth::id())
+        $noActivos = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
+            ->where('user_id', $user->id)
             ->where('en_once_inicial', false)
             ->get();
 
-        return view('alineacion', compact('activos', 'noActivos'));
+        return view('alineacion', compact('activos', 'noActivos', 'liga'));
     }
 
     public function intercambiar(Request $request)
@@ -39,6 +46,15 @@ class AlineacionController extends Controller
         $jugadorSuplente = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $suplenteId)
             ->first();
+
+        if (is_null($activoId)) {
+            // Caso hueco vacío: solo damos de alta al suplente
+            $jugadorSuplente->en_once_inicial = 1;
+            $jugadorSuplente->save();
+
+            return redirect()->route('alineacion.index')
+                ->with('success', 'Jugador agregado al once correctamente.');
+        }
 
         if ($jugadorActivo && $jugadorSuplente) {
             // Intercambiar el estado de en_once_inicial

@@ -43,4 +43,9 @@ class Liga extends Model
     {
         return $this->belongsTo(User::class, 'administrador_id');
     }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 'liga_user', 'liga_id', 'user_id');
+    }
 }
