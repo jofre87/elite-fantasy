@@ -8,6 +8,7 @@ use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\UnirteLiga;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\AlineacionController;
+use App\Http\Controllers\JornadaController;
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de bienvenida
@@ -49,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Ruta para intercambiar jugadores
     Route::post('/alineacion/intercambiar', [AlineacionController::class, 'intercambiar'])->name('alineacion.intercambiar');
+
+    //iniciar y finalizar jornada
+    Route::post('/jornada/iniciar', [JornadaController::class, 'iniciar'])->name('jornada.iniciar');
+    Route::post('/jornada/finalizar', [JornadaController::class, 'finalizar'])->name('jornada.finalizar');
 });
 
 // Rutas de autenticación (login, registro, etc.)
