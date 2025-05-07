@@ -14,17 +14,19 @@ class MarketController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $hoy = Carbon::today();
         $horaActual = Carbon::now()->format('H:i');
 
         // Verifica si ya se generó mercado hoy
-        $mercadoHoy = Mercado::whereDate('fecha', $hoy)->with('jugador.equipo', 'jugador.estadisticasTemporada')->get();
+        $mercadoHoy = Mercado::whereDate('fecha', $hoy)
+            ->with('jugador.equipo', 'jugador.estadisticasTemporada')
+            ->get();
 
         if ($mercadoHoy->isEmpty() && $horaActual >= '07:00') {
-
             Mercado::truncate();
 
-            // Selecciona 20 jugadores aleatorios con valor_actual > 0
+            // Selecciona jugadores aleatorios con valor_actual > 0
             $jugadoresAleatorios = Jugador::where('valor_actual', '>', 0)
                 ->inRandomOrder()
                 ->limit(15)
@@ -43,7 +45,15 @@ class MarketController extends Controller
             $mercadoHoy = $mercadoHoy->pluck('jugador');
         }
 
-        return view('mercado', ['players' => $mercadoHoy]);
+        // Obtener la liga del usuario para mostrar saldo y puntos
+        $ligaUser = LigaUser::with('user')
+            ->where('user_id', $user->id)
+            ->first();
+
+        return view('mercado', [
+            'players' => $mercadoHoy,
+            'ligaUser' => $ligaUser,
+        ]);
     }
 
     public function comprarJugador(Request $request, $jugadorId)
@@ -51,15 +61,14 @@ class MarketController extends Controller
         $user = Auth::user();
         $jugador = Jugador::findOrFail($jugadorId);
 
-        // Obtén la liga del usuario (si solo puede estar en una)
         $ligaUser = LigaUser::where('user_id', $user->id)->firstOrFail();
 
-        // Validación: saldo suficiente
+        // Validar saldo suficiente
         if ($ligaUser->saldo < $jugador->valor_actual) {
             return back()->with('error', 'No tienes saldo suficiente para comprar este jugador.');
         }
 
-        // Verifica que no tenga ya al jugador en la liga
+        // Verificar si ya tiene al jugador en la liga
         $yaTieneJugador = JugadorUserLiga::where('user_id', $user->id)
             ->where('liga_id', $ligaUser->liga_id)
             ->where('jugador_id', $jugadorId)
@@ -69,11 +78,11 @@ class MarketController extends Controller
             return back()->with('error', 'Ya tienes este jugador en tu equipo.');
         }
 
-        // Resta el saldo
+        // Descontar saldo
         $ligaUser->saldo -= $jugador->valor_actual;
         $ligaUser->save();
 
-        // Agrega el jugador al usuario en la liga
+        // Agregar el jugador al usuario en la liga
         JugadorUserLiga::create([
             'jugador_id' => $jugadorId,
             'user_id' => $user->id,
