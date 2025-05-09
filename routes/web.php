@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/mercado', [MarketController::class, 'index'])->name('market.index');
     // Ruta del scraping
-    Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
+    Route::get('/scrape-players', [ScrapingController::class, 'scrapePlayers']);
 
     Route::post('/comprar/{jugadorId}', [MarketController::class, 'comprarJugador'])->name('jugador.comprar');
 

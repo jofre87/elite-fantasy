@@ -16,6 +16,7 @@ class Liga extends Model
         'password',
         'saldo_inicial', // Agregamos el campo saldo_inicial
         'administrador_id',
+        'jornada_activa', // Nuevo campo
     ];
 
     // Genera un ID tipo "ABC-123" aleatorio

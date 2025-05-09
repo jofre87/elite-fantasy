@@ -1,16 +1,20 @@
 <x-layouts.app :title="__('Alineación')">
     <!-- Botones para el administrador -->
     @if (Auth::id() === $liga->administrador_id)
-        <div class="flex justify-center gap-4 mb-6. mt-6">
+        <div class="flex justify-center gap-4 mb-6 mt-6">
             <form method="POST" action="{{ route('jornada.iniciar') }}">
                 @csrf
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 cursor-pointer">
+                <button type="submit" 
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 cursor-pointer"
+                        @if ($liga->jornada_activa) disabled class="bg-gray-400 cursor-not-allowed" @endif>
                     Iniciar Jornada
                 </button>
             </form>
             <form method="POST" action="{{ route('jornada.finalizar') }}">
                 @csrf
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer">
+                <button type="submit" 
+                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
+                        @if (!$liga->jornada_activa) disabled class="bg-gray-400 cursor-not-allowed" @endif>
                     Finalizar Jornada
                 </button>
             </form>
