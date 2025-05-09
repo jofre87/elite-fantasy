@@ -69,7 +69,7 @@
                     @endforeach
                     @for($i = $mediocampistas->count(); $i < 3; $i++)
                         <button onclick="seleccionarJugador(null, 'Mediocampista')"
-                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mb-0 p-1 cursor-pointer">
+                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
                         </button>
                     @endfor
@@ -87,7 +87,7 @@
                     @endforeach
                     @for($i = $defensas->count(); $i < 4; $i++)
                         <button onclick="seleccionarJugador(null , 'Defensa')"
-                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mb-0 p-1 cursor-pointer">
+                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
                         </button>
                     @endfor
@@ -98,14 +98,14 @@
                     @foreach($porteros as $u)
                         @php $j = $u->jugador; @endphp
                         <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
-                            class="flex flex-col items-center p-2 rounded-lg mr-2 mb-6 p-1 cursor-pointer">
+                            class="flex flex-col items-center p-2 rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                             <span class="text-gray-800 font-semibold text-sm text-center">{{ $j->nombre }}</span>
                         </button>
                     @endforeach
                     @for($i = $porteros->count(); $i < 1; $i++)
                         <button onclick="seleccionarJugador(null, 'Portero')"
-                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mb-0 p-1 cursor-pointer">
+                            class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-0 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
                         </button>
                     @endfor
@@ -120,32 +120,32 @@
             <h2 class="text text-lg font-semibold mb-4">Suplentes</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 @foreach ($noActivos as $jugadorUserLiga)
-                    @php
-                        $jugador = $jugadorUserLiga->jugador;
-                    @endphp
-                    <div class="bg-white rounded-xl p-4 shadow-md border border-gray-200">
-                        <div class="flex items-center gap-4">
-                            <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}" class="w-14 h-14 rounded-full">
-                            <div>
-                                <div class="font-semibold">{{ $jugador->nombre }}</div>
-                                <div class="text-sm text-gray-600">Equipo:
-                                    <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
-                                        alt="{{ $jugador->equipo->nombre }}">
+                                @php
+                                    $jugador = $jugadorUserLiga->jugador;
+                                @endphp
+                                <div class="bg-white rounded-xl p-4 shadow-md border border-gray-200">
+                                    <div class="flex items-center gap-4">
+                                        <img src="{{ $jugador->imagen }}" alt="{{ $jugador->nombre }}" class="w-14 h-14 rounded-full">
+                                        <div>
+                                            <div class="font-semibold">{{ $jugador->nombre }}</div>
+                                            <div class="text-sm text-gray-600">Equipo:
+                                                <img class="inline w-6 h-6" src="{{ $jugador->equipo->escudo }}"
+                                                    alt="{{ $jugador->equipo->nombre }}">
+                                            </div>
+                                            <div class="text-sm text-gray-600">Posición: {{ $jugador->posicion }}</div>
+                                            <div class="text-sm text-gray-600">Valor:
+                                                {{ number_format($jugador->valor_actual, 0, ',', '.') }}
+                                                ({{ number_format($jugador->diferencia, 0, ',', '.') }})
+                                            </div>
+                                            <div class="text-sm text-gray-900">Puntos:
+                                                {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
+                                            </div>
+                                            <div class="text-sm text-gray-900">Últimos Puntos:
+                                                {{ $jugador->estadisticasTemporada->racha_puntos ?? 'N/A' }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-sm text-gray-600">Posición: {{ $jugador->posicion }}</div>
-                                <div class="text-sm text-gray-600">Valor:
-                                    {{ number_format($jugador->valor_actual, 0, ',', '.') }}
-                                    ({{ number_format($jugador->diferencia, 0, ',', '.') }})
-                                </div>
-                                <div class="text-sm text-gray-900">Puntos:
-                                    {{ $jugador->estadisticasTemporada->puntos_totales ?? 0 }}
-                                </div>
-                                <div class="text-sm text-gray-900">Últimos Puntos:
-                                    {{ $jugador->estadisticasTemporada->racha_puntos ?? 'N/A' }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </div>
         </div>
