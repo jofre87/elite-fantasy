@@ -147,7 +147,6 @@
         </div>
 
         <!-- Modal -->
-        <!-- Modal -->
         <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg w-11/12 max-w-md border border-gray-200 shadow-lg">
                 <h3 class="text-lg font-bold mb-4">Selecciona un jugador para intercambiar</h3>

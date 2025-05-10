@@ -1,7 +1,6 @@
 <x-layouts.app :title="__('Mercado')">
     {{-- ENCABEZADO USUARIO --}}
-    <div
-        class="bg-purple-700 text-black p-4 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center border-2 border-purple-800 mb-6">
+    <div class="bg-purple-700 text-black p-4 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center border-2 border-purple-800 mb-6">
         <div class="text-center sm:text-left">
             <p class="text-sm">Usuario:</p>
             <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
@@ -56,7 +55,7 @@
                                         alt="{{ $player->equipo->nombre }}">
                                 </div>
                                 <span
-                                    class="text-xs text-white px-2 py-0.5 rounded {{ $posColor }}">{{ $player->posicion }}</span>
+                                    class="text-xs text-black px-2 py-0.5 rounded {{ $posColor }}">{{ $player->posicion }}</span>
                             </div>
                         </div>
 
@@ -110,7 +109,6 @@
             <div id="jugador-info-content" class="overflow-y-auto max-h-[80vh]"></div>
         </div>
     </div>
-
 
     {{-- SCRIPT --}}
     <script>
