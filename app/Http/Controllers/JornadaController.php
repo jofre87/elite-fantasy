@@ -27,16 +27,44 @@ class JornadaController extends Controller
             return redirect()->back()->with('error', 'La jornada ya está activa.');
         }
 
+        // Calcular el próximo número de jornada
+        $ultimoJornadaId = EquiposUsuarioJornada::where('liga_id', $liga->id)
+            ->max('jornada_id'); // Obtener el valor más alto de jornada_id
+        $nuevoJornadaId = $ultimoJornadaId ? $ultimoJornadaId + 1 : 1; // Si no hay datos, asignar 1
+
         // Guardar el equipo activo en la tabla equipos_usuario_jornada
         $activos = JugadorUserLiga::where('user_id', $user->id)
             ->where('en_once_inicial', true)
             ->get();
 
+        $usuariosLiga = LigaUser::where('liga_id', $liga->id)->get();
+
+        foreach ($usuariosLiga as $usuarioLiga) {
+            // Calcular los puntos totales de los jugadores activos
+            // Obtener los puntos totales actuales del usuario en la liga
+            $totalPuntos = $usuarioLiga->puntos_totales;
+
+            // Contar la cantidad de jugadores activos
+            $cantidadActivos = EquiposUsuarioJornada::where('liga_id', $liga->id)
+                ->where('user_id', $usuarioLiga->user_id)
+                ->where('jornada_id', $ultimoJornadaId)
+                ->count();
+
+            // Calcular la penalización por jugadores faltantes
+            $penalizacion = (11 - $cantidadActivos) * -4;
+
+            // Sumar la penalización al total de puntos
+            $totalPuntos += $penalizacion;
+
+            // Actualizar los puntos totales en la tabla liga_user
+            $usuarioLiga->update(['puntos_totales' => $totalPuntos]);
+        }
+
         foreach ($activos as $jugador) {
             EquiposUsuarioJornada::create([
                 'user_id' => $user->id,
                 'liga_id' => $liga->id,
-                'jornada_id' => now()->timestamp, // Usar un identificador único para la jornada
+                'jornada_id' => $nuevoJornadaId, // Usar un identificador único para la jornada
                 'jugador_id' => $jugador->jugador_id,
                 'puntos' => 0, // Inicialmente 0
                 'posicion' => $jugador->jugador->posicion,
@@ -67,13 +95,18 @@ class JornadaController extends Controller
         }
 
         // Asignar la última puntuación de cada jugador
+        $ultimoJornadaId = EquiposUsuarioJornada::where('liga_id', $liga->id)
+            ->max('jornada_id'); // Obtener el último identificador de jornada
+
         $equipos = EquiposUsuarioJornada::where('liga_id', $liga->id)
-            ->where('jornada_id', now()->timestamp) // Usar el mismo identificador de jornada
+            ->where('jornada_id', $ultimoJornadaId) // Usar el último identificador de jornada
             ->get();
 
         foreach ($equipos as $equipo) {
+            $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
+            $primerValor = $rachaPuntos ? json_decode($rachaPuntos, true)[0] : 0;
             $equipo->update([
-                'puntos' => $equipo->jugador->estadisticasTemporada->puntos_totales ?? 0,
+                'puntos' => $primerValor,
             ]);
         }
 
@@ -81,11 +114,12 @@ class JornadaController extends Controller
         $usuariosLiga = LigaUser::where('liga_id', $liga->id)->get();
 
         foreach ($usuariosLiga as $usuarioLiga) {
-            $totalPuntos = EquiposUsuarioJornada::where('liga_id', $liga->id)
+            $puntosActuales = $usuarioLiga->puntos_totales; // Obtener los puntos actuales
+            $puntosNuevos = EquiposUsuarioJornada::where('liga_id', $liga->id)
                 ->where('user_id', $usuarioLiga->user_id)
                 ->sum('puntos');
 
-            $usuarioLiga->update(['puntos_totales' => $totalPuntos]);
+            $usuarioLiga->update(['puntos_totales' => $puntosActuales + $puntosNuevos]); // Sumar los nuevos puntos a los actuales
         }
 
         // Marcar la jornada como inactiva
