@@ -37,29 +37,6 @@ class JornadaController extends Controller
             ->where('en_once_inicial', true)
             ->get();
 
-        $usuariosLiga = LigaUser::where('liga_id', $liga->id)->get();
-
-        foreach ($usuariosLiga as $usuarioLiga) {
-            // Calcular los puntos totales de los jugadores activos
-            // Obtener los puntos totales actuales del usuario en la liga
-            $totalPuntos = $usuarioLiga->puntos_totales;
-
-            // Contar la cantidad de jugadores activos
-            $cantidadActivos = EquiposUsuarioJornada::where('liga_id', $liga->id)
-                ->where('user_id', $usuarioLiga->user_id)
-                ->where('jornada_id', $ultimoJornadaId)
-                ->count();
-
-            // Calcular la penalización por jugadores faltantes
-            $penalizacion = (11 - $cantidadActivos) * -4;
-
-            // Sumar la penalización al total de puntos
-            $totalPuntos += $penalizacion;
-
-            // Actualizar los puntos totales en la tabla liga_user
-            $usuarioLiga->update(['puntos_totales' => $totalPuntos]);
-        }
-
         foreach ($activos as $jugador) {
             EquiposUsuarioJornada::create([
                 'user_id' => $user->id,
@@ -80,6 +57,10 @@ class JornadaController extends Controller
 
     public function finalizar(Request $request)
     {
+        // Llamar al método scrapePlayers para actualizar los datos
+        $scrapingController = new ScrapingController();
+        $scrapingController->scrapePlayers();
+
         $user = Auth::user();
 
         // Verificar si el usuario es administrador de la liga
@@ -115,9 +96,27 @@ class JornadaController extends Controller
 
         foreach ($usuariosLiga as $usuarioLiga) {
             $puntosActuales = $usuarioLiga->puntos_totales; // Obtener los puntos actuales
+
             $puntosNuevos = EquiposUsuarioJornada::where('liga_id', $liga->id)
                 ->where('user_id', $usuarioLiga->user_id)
+                ->where('jornada_id', $ultimoJornadaId)
                 ->sum('puntos');
+
+            $cantidadActivos = EquiposUsuarioJornada::where('liga_id', $liga->id)
+                ->where('user_id', $usuarioLiga->user_id)
+                ->where('jornada_id', $ultimoJornadaId)
+                ->count();
+
+            // Calcular la penalización por jugadores faltantes
+            $penalizacion = (11 - $cantidadActivos) * -4;
+
+            $puntosNuevos += $penalizacion; // Sumar la penalización a los nuevos puntos
+
+            if ($puntosNuevos > 0) {
+                $dineroActual = $usuarioLiga->saldo;
+                $dineroGanado = $puntosNuevos * 100000; // Convertir a la unidad de saldo
+                $usuarioLiga->update(['saldo' => $dineroGanado + $dineroActual]); // Actualizar el saldo
+            }
 
             $usuarioLiga->update(['puntos_totales' => $puntosActuales + $puntosNuevos]); // Sumar los nuevos puntos a los actuales
         }
