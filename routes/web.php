@@ -11,13 +11,9 @@ use App\Http\Controllers\AlineacionController;
 use App\Http\Controllers\JornadaController;
 
 Route::middleware(['auth'])->group(function () {
-    // Ruta de bienvenida
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('home');
-
-    // Vista del dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Ruta de bienvenida redirige directamente al dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Rutas de configuración de usuario con Livewire Volt
     Route::redirect('settings', 'settings/profile');
@@ -41,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/mercado', [MarketController::class, 'index'])->name('market.index');
     // Ruta del scraping
-    Route::get('/scrape-players', [ScrapingController::class, 'scrapeQuotes']);
+    Route::get('/scrape-players', [ScrapingController::class, 'scrapePlayers']);
 
     Route::post('/comprar/{jugadorId}', [MarketController::class, 'comprarJugador'])->name('jugador.comprar');
 

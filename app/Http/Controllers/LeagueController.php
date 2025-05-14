@@ -24,6 +24,7 @@ class LeagueController extends Controller
             'password' => bcrypt($validated['password']),
             'saldo_inicial' => $validated['initial_share'] * 1000000,
             'administrador_id' => auth()->id(),
+            'jornada_activa' => false,
         ]);
 
         // Guarda el reparto inicial en la tabla `liga_user`
@@ -32,6 +33,10 @@ class LeagueController extends Controller
             'user_id' => auth()->id(),
             'saldo' => $validated['initial_share'] * 1000000,
         ]);
+
+        // Llamar al método scrapePlayers para actualizar los datos
+        $scrapingController = new ScrapingController();
+        $scrapingController->scrapePlayers();
 
         // Redirige al usuario con un mensaje de éxito
         return redirect()->route('dashboard')->with('success', 'Liga creada exitosamente.');

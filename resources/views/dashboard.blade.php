@@ -36,8 +36,7 @@
                     </thead>
                     <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
                         @foreach ($ligaUsers as $index => $entry)
-                            <tr
-                                class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
+                            <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
                                 <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
                                 <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
                                 <td class="px-2 py-1 text-center">{{ $entry->user->puntos ?? 0 }}</td>

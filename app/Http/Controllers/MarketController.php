@@ -45,6 +45,13 @@ class MarketController extends Controller
             $mercadoHoy = $mercadoHoy->pluck('jugador');
         }
 
+        // Aseguramos que las estadísticas de cada jugador estén disponibles
+        foreach ($mercadoHoy as $jugador) {
+            if ($jugador->estadisticasTemporada) {
+                $jugador->estadisticasTemporada->makeHidden(['id', 'jugador_id', 'created_at', 'updated_at']);
+            }
+        }
+
         // Obtener la liga del usuario para mostrar saldo y puntos
         $ligaUser = LigaUser::with('user')
             ->where('user_id', $user->id)

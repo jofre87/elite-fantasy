@@ -14,7 +14,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class ScrapingController extends Controller
 {
 
-    public function scrapeQuotes(): JsonResponse
+    public function scrapePlayers(): JsonResponse
     {
         // Inicializar un cliente HTTP similar a un navegador
         $browser = new HttpBrowser(HttpClient::create());
