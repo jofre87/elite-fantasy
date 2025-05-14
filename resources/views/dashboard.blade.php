@@ -104,25 +104,4 @@ C:\>cd Users\usuari\Documents\GitHub\elite-fantasy
 php artisan serve
 http://localhost:8000/dashboard
 http://localhost:8000/scrape-players
-
-
-solucionar tailwindcss
-en la raiz del proyecto:
-npm install -D tailwindcss@3
-npx tailwindcss init
-tailwind.config.js:
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    './resources/**/*.blade.php',
-    './resources/**/*.js',
-    './resources/**/*.vue',],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-
-
-
 -->
