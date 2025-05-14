@@ -12,6 +12,7 @@ use App\Http\Controllers\JornadaController;
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de bienvenida redirige directamente al dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Rutas de configuración de usuario con Livewire Volt

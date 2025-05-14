@@ -75,7 +75,8 @@
                         </div>
 
                         <div class="mt-2 flex justify-end">
-                            <form method="POST" action="{{ route('jugador.comprar', $player->id) }}" class="form-comprar">
+                            <form method="POST" action="{{ route('jugador.comprar', $player->id) }}"
+                                class="form-comprar">
                                 @csrf
                                 <button type="submit"
                                     class="bg-gray-200 border border-gray-400 rounded-lg px-3 py-1 text-sm hover:bg-gray-300 transition">Comprar</button>
