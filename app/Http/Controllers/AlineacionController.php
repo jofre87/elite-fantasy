@@ -70,4 +70,24 @@ class AlineacionController extends Controller
 
         return redirect()->route('alineacion.index')->with('error', 'Error al intercambiar jugadores.');
     }
+
+    public function desalinear(Request $request)
+    {
+        $activoId = $request->input('activo_id');
+
+        // Buscar el jugador activo en la tabla jugador_user_liga
+        $jugadorActivo = JugadorUserLiga::where('user_id', auth()->id())
+            ->where('jugador_id', $activoId)
+            ->first();
+
+        if ($jugadorActivo) {
+            // Cambiar el estado a no activo
+            $jugadorActivo->en_once_inicial = 0;
+            $jugadorActivo->save();
+
+            return redirect()->route('alineacion.index')->with('success', 'Jugador desalineado correctamente.');
+        }
+
+        return redirect()->route('alineacion.index')->with('error', 'Error al desalinear el jugador.');
+    }
 }
