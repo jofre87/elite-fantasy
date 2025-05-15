@@ -11,6 +11,9 @@ use App\Http\Controllers\AlineacionController;
 use App\Http\Controllers\JornadaController;
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/home', function () {
+        return redirect()->route('dashboard');
+    })->name('home');
     // Ruta de bienvenida redirige directamente al dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -45,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Ruta para intercambiar jugadores
     Route::post('/alineacion/intercambiar', [AlineacionController::class, 'intercambiar'])->name('alineacion.intercambiar');
+    Route::post('/alineacion/desalinear', [AlineacionController::class, 'desalinear'])->name('alineacion.desalinear');
+    Route::post('/alineacion/vender', [MarketController::class, 'venderJugador'])->name('jugador.vender');
 
     //iniciar y finalizar jornada
     Route::post('/jornada/iniciar', [JornadaController::class, 'iniciar'])->name('jornada.iniciar');

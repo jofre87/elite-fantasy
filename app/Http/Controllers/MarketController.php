@@ -100,4 +100,25 @@ class MarketController extends Controller
 
         return back()->with('success', 'Jugador comprado exitosamente.');
     }
+
+    public function venderJugador(Request $request)
+    {
+        $user = Auth::user();
+        $jugadorId = $request->input('jugador_id');
+        $jugador = Jugador::findOrFail($jugadorId);
+
+        $ligaUser = LigaUser::where('user_id', $user->id)->firstOrFail();
+
+        // Sumar saldo
+        $ligaUser->saldo += $jugador->valor_actual;
+        $ligaUser->save();
+
+        // Eliminar el jugador del usuario en la liga
+        JugadorUserLiga::where('jugador_id', $jugadorId)
+            ->where('user_id', $user->id)
+            ->where('liga_id', $ligaUser->liga_id)
+            ->delete();
+
+        return back()->with('success', 'Jugador vendido exitosamente.');
+    }
 }
