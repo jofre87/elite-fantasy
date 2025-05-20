@@ -121,7 +121,8 @@
             <div class="menu-and-user flex items-center gap-4 mt-2">
                 <!-- Menú hamburguesa -->
                 <div class="relative" x-data="{ open: false }">
-                    <button class="menu-button text-white bg-blue-700 p-3 rounded-md" @click="open = !open">
+                    <button class="menu-button text-white bg-blue-700 p-3 rounded-md cursor-pointer"
+                        @click="open = !open">
                         ☰
                     </button>
                     <!-- Menú desplegable -->
@@ -133,8 +134,29 @@
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Dashboard</a>
                         <a href="{{ route('league.create') }}"
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Crear o Unirse a Liga</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="block px-4 py-2 text-red-600 hover:bg-gray-200 dark:hover:bg-blue-700 w-full text-left cursor-pointer">
+                                Cerrar sesión
+                            </button>
+                        </form>
                     </div>
                 </div>
+
+                <!-- Selector de Liga -->
+                @if (auth()->user()->ligas->count() > 0)
+                    <form method="GET" action="{{ route('dashboard') }}">
+                        <select name="liga_id" onchange="this.form.submit()"
+                            class="text-white text-sm rounded px-2 py-1 cursor-pointer">
+                            @foreach(auth()->user()->ligas as $liga)
+                                <option class="text-black" value="{{ $liga->id }}" {{ session('liga_activa') == $liga->id ? 'selected' : '' }}>
+                                    Liga {{ $liga->id }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                @endif
 
                 <!-- Usuario y logout -->
                 <div class="user-menu relative" x-data="{ open: false }">

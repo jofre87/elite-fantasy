@@ -25,51 +25,32 @@
 
             {{-- Clasificación --}}
             <div class="bg-white dark:bg-neutral-800 p-4 rounded-xl shadow border border-purple-300">
-                <h2 class="font-bold text-center text-white bg-purple-700 p-2 rounded-t">CLASIFICACIÓN</h2>
-                <table class="w-full text-xs mt-2 table-fixed text-gray-700 dark:text-gray-200">
-                    <thead class="uppercase bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200">
-                        <tr>
-                            <th class="px-2 py-1 w-8 text-center">#</th>
-                            <th class="px-2 py-1 truncate">Usuario</th>
-                            <th class="px-2 py-1 w-14 text-center">Puntos</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
-                        @foreach ($ligaUsers as $index => $entry)
-                            <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
-                                <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
-                                <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
-                                <td class="px-2 py-1 text-center">{{ $entry->user->puntos ?? 0 }}</td>
+                <h2 class="font-bold text-center text-white bg-purple-700 p-2 rounded-t">
+                    CLASIFICACIÓN @isset($ligaId)- Liga {{ $ligaId }}@endisset
+                </h2>
+
+                @if ($ligaUsers->isEmpty())
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-300 mt-4">No hay usuarios en esta liga.</p>
+                @else
+                    <table class="w-full text-xs mt-2 table-fixed text-gray-700 dark:text-gray-200">
+                        <thead class="uppercase bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200">
+                            <tr>
+                                <th class="px-2 py-1 w-8 text-center">#</th>
+                                <th class="px-2 py-1 truncate">Usuario</th>
+                                <th class="px-2 py-1 w-14 text-center">Puntos</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- Goleadores --}}
-            <div class="bg-gray-100 dark:bg-neutral-800 text-black dark:text-white p-4 rounded-xl shadow">
-                <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Máximos Goleadores</h2>
-                <ul class="mt-2 space-y-1 text-sm">
-                    @foreach ($goleadores as $i => $jugador)
-                        <li class="flex justify-between border-b pb-1">
-                            <span>{{ $i + 1 }}. {{ $jugador->nombre }}</span>
-                            <span>{{ $jugador->estadisticasTemporada->goles ?? 0 }} goles</span>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            {{-- Clasificación LaLiga --}}
-            <div class="bg-gray-100 dark:bg-neutral-800 text-black dark:text-white p-4 rounded-xl shadow">
-                <h2 class="font-bold text-center bg-purple-700 text-white p-2 rounded">Clasificación LaLiga</h2>
-                <ul class="mt-2 space-y-1 text-sm">
-                    @foreach (range(1, 10) as $i)
-                        <li class="flex justify-between border-b pb-1">
-                            <span>{{ $i }}. Equipo</span>
-                            <span>{{ rand(10, 90) }} pts</span>
-                        </li>
-                    @endforeach
-                </ul>
+                        </thead>
+                        <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
+                            @foreach ($ligaUsers as $index => $entry)
+                                <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
+                                    <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
+                                    <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
+                                    <td class="px-2 py-1 text-center">{{ $entry->puntos_totales ?? 0 }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
 
         </div>

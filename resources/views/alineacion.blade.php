@@ -195,7 +195,7 @@
         <!-- Modal Cambiar jugador -->
         <div id="modal" class="fixed inset-0 bg-opacity-60 hidden justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg w-11/12 max-w-md border border-gray-200 shadow-lg">
-                <h3 class="text-lg font-bold mb-4">Selecciona un jugador para intercambiar</h3>
+                <h3 class="text-black text-lg font-bold mb-4">Selecciona un jugador para intercambiar</h3>
                 <div class="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto">
 
                     @foreach ($noActivos as $jugadorUserLiga)
@@ -226,20 +226,23 @@
                     @endforeach
 
                 </div>
-                <!-- Botón para desalinear jugador -->
-                <div class="mt-4 text-right">
-                    <form method="POST" action="{{ route('alineacion.desalinear') }}">
-                        @csrf
-                        <input type="hidden" name="activo_id" id="activo-id-desalinear" value="">
-                        <button type="submit"
-                            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer">
-                            Desalinear Jugador
-                        </button>
-                    </form>
-                </div>
-                <div class="mt-4 text-right">
-                    <button onclick="cerrarModal()"
-                        class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 cursor-pointer">Cancelar</button>
+
+                <div class="flex justify-end gap-4">
+                    <!-- Botón para desalinear jugador -->
+                    <div class="mt-4">
+                        <form method="POST" action="{{ route('alineacion.desalinear') }}">
+                            @csrf
+                            <input type="hidden" name="activo_id" id="activo-id-desalinear" value="">
+                            <button type="submit"
+                                class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 cursor-pointer">
+                                Desalinear Jugador
+                            </button>
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <button onclick="cerrarModal()"
+                            class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 cursor-pointer">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
