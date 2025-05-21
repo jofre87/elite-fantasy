@@ -161,7 +161,7 @@
                         const offset = puntos.length >= 10 ? puntos.length - 10 : 0;
 
                         while (ultimosDiez.length < totalJornadas) {
-                            ultimosDiez.push(0); // Rellenar con 0 al final
+                            ultimosDiez.push(10); // Rellenar con 0 al final
                         }
 
                         const puntosScroll = ultimosDiez.map((p, i) => {
