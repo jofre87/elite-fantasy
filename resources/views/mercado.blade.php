@@ -6,8 +6,7 @@
             <p class="text-sm">Usuario:</p>
             <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
             <p class="text-sm mt-1">{{ $ligaUser->user->puntos ?? '0' }} pts |
-                {{ number_format($ligaUser->saldo, 2, ',', '.') }} €
-            </p>
+                {{ number_format($ligaUser->saldo, 2, ',', '.') }} €</p>
         </div>
         <div class="mt-4 sm:mt-0 text-center sm:text-right">
             <p class="text-sm">Valor de tu equipo:</p>
@@ -29,6 +28,11 @@
                 @foreach ($players as $player)
                     @php
                         $estadisticas = $player->estadisticasTemporada;
+                        $racha = is_array($estadisticas->racha_puntos ?? null)
+                            ? $estadisticas->racha_puntos
+                            : json_decode($estadisticas->racha_puntos ?? '[]', true);
+                        $ultimosCinco = array_slice($racha, -5);
+
                         switch ($player->posicion) {
                             case 'Delantero':
                                 $posColor = 'bg-red-600';
@@ -72,6 +76,27 @@
                                 @endif
                             </div>
                             <div>Puntos totales: {{ $estadisticas->puntos_totales ?? 0 }}</div>
+
+                            {{-- Últimos 5 puntos con colores --}}
+                            <div class="flex gap-1 mt-2">
+                                @foreach ($ultimosCinco as $index => $p)
+                                    @php
+                                        $color = 'bg-gray-400';
+                                        if ($p < 0) {
+                                            $color = 'bg-red-500';
+                                        } elseif ($p >= 2 && $p <= 9) {
+                                            $color = 'bg-green-500';
+                                        } elseif ($p > 9) {
+                                            $color = 'bg-blue-500';
+                                        }
+                                        $jornada = count($racha) - count($ultimosCinco) + $index + 1;
+                                    @endphp
+                                    <span title="Jornada {{ $jornada }}"
+                                        class="w-6 h-6 rounded-full text-white text-xs flex items-center justify-center {{ $color }}">
+                                        {{ $p }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </div>
 
                         <div class="mt-2 flex justify-end">
@@ -88,21 +113,7 @@
         </div>
     </div>
 
-    {{-- MODAL DE COMPRA --}}
-    <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg w-11/12 max-w-md border border-gray-200 shadow-lg">
-            <h3 class="text-lg font-bold mb-4">Confirmar compra</h3>
-            <p class="text-gray-700 mb-6">¿Estás seguro de que quieres comprar este jugador?</p>
-            <div class="flex justify-end gap-4">
-                <button onclick="cerrarModal()"
-                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer">Cancelar</button>
-                <button id="confirm-btn"
-                    class="bg-green-500 hover:bg-green-600 text-white border border-green-700 px-4 py-2 rounded cursor-pointer">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE INFORMACIÓN DEL JUGADOR -->
+    {{-- MODAL DE INFORMACIÓN DEL JUGADOR --}}
     <div id="jugador-modal"
         class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
         <div class="bg-white p-6 rounded-lg w-full max-w-md border border-gray-200 shadow-lg relative">
@@ -112,32 +123,21 @@
         </div>
     </div>
 
+    {{-- SCROLLBAR HIDE --}}
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
     {{-- SCRIPT --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const confirmModal = document.getElementById('confirm-modal');
-            const confirmBtn = document.getElementById('confirm-btn');
-            let activeForm = null;
-
-            document.querySelectorAll('.form-comprar').forEach(form => {
-                form.addEventListener('submit', e => {
-                    e.preventDefault();
-                    activeForm = form;
-                    confirmModal.classList.remove('hidden');
-                    confirmModal.classList.add('flex');
-                });
-            });
-
-            window.cerrarModal = () => {
-                confirmModal.classList.add('hidden');
-                confirmModal.classList.remove('flex');
-                activeForm = null;
-            };
-
-            confirmBtn.addEventListener('click', () => {
-                if (activeForm) activeForm.submit();
-            });
-
             const jugadorModal = document.getElementById('jugador-modal');
             const jugadorContent = document.getElementById('jugador-info-content');
 
@@ -146,13 +146,37 @@
                     infoDiv.addEventListener('click', () => {
                         const jugador = JSON.parse(div.dataset.jugador);
                         const estadisticas = JSON.parse(div.dataset.estadisticas || '{}');
-                        const puntosJornada = estadisticas.puntos_por_jornada ?? [];
 
-                        const listaPuntos = puntosJornada.length ?
-                            '<ul class="list-disc pl-5 text-sm text-gray-700 mt-2">' +
-                            puntosJornada.map((p, i) =>
-                                `<li>Jornada ${i + 1}: ${p} pts</li>`).join('') + '</ul>' :
-                            '<p class="text-sm text-gray-500">Sin estadísticas de jornadas.</p>';
+                        let puntos = estadisticas.puntos_por_jornada;
+                        if (!Array.isArray(puntos)) {
+                            try {
+                                puntos = JSON.parse(puntos || '[]');
+                            } catch {
+                                puntos = [];
+                            }
+                        }
+
+                        const totalJornadas = 10;
+                        let ultimosDiez = puntos.slice(-totalJornadas);
+                        const offset = puntos.length >= 10 ? puntos.length - 10 : 0;
+
+                        while (ultimosDiez.length < totalJornadas) {
+                            ultimosDiez.push(10); // Rellenar con 0 al final
+                        }
+
+                        const puntosScroll = ultimosDiez.map((p, i) => {
+                            let color = 'bg-gray-400';
+                            if (p < 0) color = 'bg-red-500';
+                            else if (p >= 2 && p <= 9) color = 'bg-green-500';
+                            else if (p > 9) color = 'bg-blue-500';
+
+                            const jornada = offset + i + 1;
+
+                            return `<div title="Jornada ${jornada}" class="w-10 h-10 flex-shrink-0 rounded-full text-white text-sm font-semibold flex items-center justify-center ${color}">${p}</div>`;
+                        }).join('');
+
+                        const listaPuntos =
+                            `<div class="flex gap-2 overflow-x-auto scrollbar-hide p-1 bg-gray-100 rounded-lg">${puntosScroll}</div>`;
 
                         jugadorContent.innerHTML = `
                             <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre}</h3>
@@ -167,7 +191,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-base mb-2">📊 Puntos por jornada:</h4>
+                                <h4 class="font-semibold text-base mb-2">📊 Últimos 10 puntos por jornada:</h4>
                                 ${listaPuntos}
                             </div>
                         `;
