@@ -123,15 +123,24 @@
         </div>
     </div>
 
-    {{-- SCROLLBAR HIDE --}}
+    {{-- SCROLLBAR STYLES --}}
     <style>
         .scrollbar-hide::-webkit-scrollbar {
-            display: none;
+            height: 6px;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
         }
 
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        .scroll-touch {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 
@@ -147,22 +156,13 @@
                         const jugador = JSON.parse(div.dataset.jugador);
                         const estadisticas = JSON.parse(div.dataset.estadisticas || '{}');
 
-                        let puntos = estadisticas.puntos_por_jornada;
-                        if (!Array.isArray(puntos)) {
-                            try {
-                                puntos = JSON.parse(puntos || '[]');
-                            } catch {
-                                puntos = [];
-                            }
-                        }
-
                         const totalJornadas = 10;
-                        let ultimosDiez = puntos.slice(-totalJornadas);
-                        const offset = puntos.length >= 10 ? puntos.length - 10 : 0;
+                        let racha = Array.isArray(estadisticas.racha_puntos) ?
+                            estadisticas.racha_puntos :
+                            JSON.parse(estadisticas.racha_puntos || '[]');
 
-                        while (ultimosDiez.length < totalJornadas) {
-                            ultimosDiez.push(10); // Rellenar con 0 al final
-                        }
+                        let ultimosDiez = racha.slice(-totalJornadas);
+                        const offset = racha.length >= 10 ? racha.length - 10 : 0;
 
                         const puntosScroll = ultimosDiez.map((p, i) => {
                             let color = 'bg-gray-400';
@@ -175,29 +175,42 @@
                             return `<div title="Jornada ${jornada}" class="w-10 h-10 flex-shrink-0 rounded-full text-white text-sm font-semibold flex items-center justify-center ${color}">${p}</div>`;
                         }).join('');
 
-                        const listaPuntos =
-                            `<div class="flex gap-2 overflow-x-auto scrollbar-hide p-1 bg-gray-100 rounded-lg">${puntosScroll}</div>`;
+                        // Contenedor de los puntos con scroll
+                        const puntosHTML = `
+                        <div id="scroll-puntos" class="flex gap-2 overflow-x-auto scrollbar-hide scroll-touch p-1 bg-gray-100 rounded-lg max-w-full" style="width: 100%;">
+                            ${puntosScroll}
+                        </div>
+                    `;
 
                         jugadorContent.innerHTML = `
-                            <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre}</h3>
-                            <div class="flex gap-6 items-center mb-6">
-                                <img src="${jugador.imagen}" alt="${jugador.nombre}" class="w-28 h-28 rounded-full border border-gray-300">
-                                <div>
-                                    <p class="text-sm text-gray-700"><strong>Equipo:</strong> ${jugador.equipo?.nombre ?? 'Sin equipo'} <img src="${jugador.equipo?.escudo}" class="inline w-5 h-5 ml-1"></p>
-                                    <p class="text-sm text-gray-700"><strong>Posición:</strong> ${jugador.posicion}</p>
-                                    <p class="text-sm text-gray-700"><strong>Valor actual:</strong> ${Number(jugador.valor_actual).toLocaleString('es-ES')} €</p>
-                                    <p class="text-sm text-gray-700"><strong>Diferencia:</strong> ${jugador.diferencia > 0 ? '▲' : '▼'} ${Math.abs(jugador.diferencia).toLocaleString('es-ES')} €</p>
-                                    <p class="text-sm text-gray-700"><strong>Puntos totales:</strong> ${estadisticas.puntos_totales ?? 0}</p>
-                                </div>
-                            </div>
+                        <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre}</h3>
+                        <div class="flex gap-6 items-center mb-6">
+                            <img src="${jugador.imagen}" alt="${jugador.nombre}" class="w-28 h-28 rounded-full border border-gray-300">
                             <div>
-                                <h4 class="font-semibold text-base mb-2">📊 Últimos 10 puntos por jornada:</h4>
-                                ${listaPuntos}
+                                <p class="text-sm text-gray-700"><strong>Equipo:</strong> ${jugador.equipo?.nombre ?? 'Sin equipo'} <img src="${jugador.equipo?.escudo}" class="inline w-5 h-5 ml-1"></p>
+                                <p class="text-sm text-gray-700"><strong>Posición:</strong> ${jugador.posicion}</p>
+                                <p class="text-sm text-gray-700"><strong>Valor actual:</strong> ${Number(jugador.valor_actual).toLocaleString('es-ES')} €</p>
+                                <p class="text-sm text-gray-700"><strong>Diferencia:</strong> ${jugador.diferencia > 0 ? '▲' : '▼'} ${Math.abs(jugador.diferencia).toLocaleString('es-ES')} €</p>
+                                <p class="text-sm text-gray-700"><strong>Puntos totales:</strong> ${estadisticas.puntos_totales ?? 0}</p>
                             </div>
-                        `;
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-base mb-2">📊 Últimos 10 puntos por jornada:</h4>
+                            ${puntosHTML}
+                        </div>
+                    `;
 
                         jugadorModal.classList.remove('hidden');
                         jugadorModal.classList.add('flex');
+
+                        // Esperar al render y hacer scroll al final del contenedor
+                        setTimeout(() => {
+                            const scrollDiv = document.getElementById(
+                                'scroll-puntos');
+                            if (scrollDiv) {
+                                scrollDiv.scrollLeft = scrollDiv.scrollWidth;
+                            }
+                        }, 50);
                     });
                 });
             });
