@@ -104,7 +104,7 @@
 
     <!-- MODAL DE INFORMACIÓN DEL JUGADOR -->
     <div id="jugador-modal"
-        class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
+        class="fixed inset-0 bg-gray-400 bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
         <div class="bg-white p-6 rounded-lg w-full max-w-md border border-gray-200 shadow-lg relative">
             <button onclick="cerrarJugadorModal()"
                 class="absolute top-2 right-2 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
