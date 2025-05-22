@@ -146,6 +146,7 @@
 
     {{-- SCRIPT --}}
     <script>
+        
         document.addEventListener('DOMContentLoaded', () => {
             const jugadorModal = document.getElementById('jugador-modal');
             const jugadorContent = document.getElementById('jugador-info-content');
