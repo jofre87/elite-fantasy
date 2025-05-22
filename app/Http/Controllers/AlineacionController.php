@@ -13,20 +13,24 @@ class AlineacionController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $ligaId = session('liga_activa');
 
         // Obtener la liga del usuario
-        $liga = Liga::whereHas('usuarios', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->first();
+        $liga = Liga::where('id', $ligaId)
+            ->whereHas('usuarios', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->first();
 
-        // Obtener los jugadores activos y suplentes
+        // Obtener los jugadores activos y suplentes SOLO de la liga activa
         $activos = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
             ->where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
             ->where('en_once_inicial', true)
             ->get();
 
         $noActivos = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
             ->where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
             ->where('en_once_inicial', false)
             ->get();
 
