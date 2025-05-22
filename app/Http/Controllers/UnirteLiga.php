@@ -6,6 +6,7 @@ use App\Models\Liga;
 use App\Models\LigaUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Services\EquipoInicialService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -38,12 +39,23 @@ class UnirteLiga extends Controller
             ->exists(); // Verifica si ya existe una relación entre el usuario y la liga
 
         if (!$exists) {
+            $scrapingController = new ScrapingController();
+            $scrapingController->scrapePlayers();
+
+            $valorRestante = EquipoInicialService::asignarEquipoInicial(auth()->id(), $liga);
+
+            if ($valorRestante === false) {
+                return redirect()->back()->withErrors(['jugadores' => 'No hay suficientes jugadores asequibles para formar un equipo inicial.']);
+            }
+
             LigaUser::create([
-                'liga_id' => $liga->id, // Ahora usamos el ID generado automáticamente
+                'liga_id' => $liga->id,
                 'user_id' => auth()->id(),
-                'saldo' => $liga->saldo_inicial,
+                'saldo' => $valorRestante,
             ]);
         }
+
+
 
         return redirect()->route('dashboard')->with('success', 'Te has unido a la liga correctamente.');
     }

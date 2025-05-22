@@ -9,7 +9,16 @@
                 <div class="flex items-center justify-between mb-6">
                     <span class="bg-[#3B0CA8] text-black px-4 py-2 rounded-md font-bold text-sm">CREAR LIGA</span>
                 </div>
-
+                <!-- Mostrar errores -->
+                @if ($errors->any())
+                    <div class="mb-4">
+                        <ul class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <!-- Formulario -->
                 <form action="{{ route('league.store') }}" method="POST">
                     @csrf

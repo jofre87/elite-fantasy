@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Liga;
 use App\Models\LigaUser;
 use Illuminate\Http\Request;
+use App\Services\EquipoInicialService;
 use Illuminate\Support\Str;
 
 class LeagueController extends Controller
@@ -27,16 +28,22 @@ class LeagueController extends Controller
             'jornada_activa' => false,
         ]);
 
+        // Llamar al método scrapePlayers para actualizar los datos
+        $scrapingController = new ScrapingController();
+        $scrapingController->scrapePlayers();
+
+        $valorRestante = EquipoInicialService::asignarEquipoInicial(auth()->id(), $liga);
+
+        if ($valorRestante === false) {
+            return redirect()->back()->withErrors(['jugadores' => 'No hay suficientes jugadores asequibles para formar un equipo inicial.']);
+        }
+
         // Guarda el reparto inicial en la tabla `liga_user`
         LigaUser::create([
             'liga_id' => $liga->id, // Ahora usamos el ID generado automáticamente
             'user_id' => auth()->id(),
-            'saldo' => $validated['initial_share'] * 1000000,
+            'saldo' => $valorRestante,
         ]);
-
-        // Llamar al método scrapePlayers para actualizar los datos
-        $scrapingController = new ScrapingController();
-        $scrapingController->scrapePlayers();
 
         // Redirige al usuario con un mensaje de éxito
         return redirect()->route('dashboard')->with('success', 'Liga creada exitosamente.');
