@@ -113,9 +113,22 @@
         </div>
     </div>
 
+    {{-- MODAL DE CONFIRMACIÓN DE COMPRA --}}
+    <div id="confirm-modal" class="fixed inset-0 bg-opacity-60 hidden justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg w-11/12 max-w-md border border-gray-200 shadow-lg">
+            <h3 class="text-lg font-bold mb-4">Confirmar compra</h3>
+            <p class="text-gray-700 mb-6">¿Estás seguro de que quieres comprar este jugador?</p>
+            <div class="flex justify-end gap-4">
+                <button onclick="cerrarModal()"
+                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer">Cancelar</button>
+                <button id="confirm-btn"
+                    class="bg-green-500 hover:bg-green-600 text-white border border-green-700 px-4 py-2 rounded cursor-pointer">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
     {{-- MODAL DE INFORMACIÓN DEL JUGADOR --}}
-    <div id="jugador-modal"
-        class="fixed inset-0 bg-gray-400 bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
+    <div id="jugador-modal" class="fixed inset-0 bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
         <div class="bg-white p-6 rounded-lg w-full max-w-md border border-gray-200 shadow-lg relative">
             <button onclick="cerrarJugadorModal()"
                 class="absolute top-2 right-2 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
@@ -146,8 +159,32 @@
 
     {{-- SCRIPT --}}
     <script>
-        
         document.addEventListener('DOMContentLoaded', () => {
+            // --- MODAL CONFIRMACIÓN DE COMPRA ---
+            const confirmModal = document.getElementById('confirm-modal');
+            const confirmBtn = document.getElementById('confirm-btn');
+            let activeForm = null;
+
+            document.querySelectorAll('.form-comprar').forEach(form => {
+                form.addEventListener('submit', e => {
+                    e.preventDefault();
+                    activeForm = form;
+                    confirmModal.classList.remove('hidden');
+                    confirmModal.classList.add('flex');
+                });
+            });
+
+            window.cerrarModal = () => {
+                confirmModal.classList.add('hidden');
+                confirmModal.classList.remove('flex');
+                activeForm = null;
+            };
+
+            confirmBtn.addEventListener('click', () => {
+                if (activeForm) activeForm.submit();
+            });
+
+            // --- MODAL INFORMACIÓN DEL JUGADOR ---
             const jugadorModal = document.getElementById('jugador-modal');
             const jugadorContent = document.getElementById('jugador-info-content');
 
