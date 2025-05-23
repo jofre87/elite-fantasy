@@ -53,8 +53,10 @@ class MarketController extends Controller
         }
 
         // Obtener la liga del usuario para mostrar saldo y puntos
+        $ligaId = session('liga_activa');
         $ligaUser = LigaUser::with('user')
             ->where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
             ->first();
 
         return view('mercado', [
@@ -67,8 +69,11 @@ class MarketController extends Controller
     {
         $user = Auth::user();
         $jugador = Jugador::findOrFail($jugadorId);
+        $ligaId = session('liga_activa');
 
-        $ligaUser = LigaUser::where('user_id', $user->id)->firstOrFail();
+        $ligaUser = LigaUser::where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
+            ->firstOrFail();
 
         // Validar saldo suficiente
         if ($ligaUser->saldo < $jugador->valor_actual) {
@@ -106,8 +111,11 @@ class MarketController extends Controller
         $user = Auth::user();
         $jugadorId = $request->input('jugador_id');
         $jugador = Jugador::findOrFail($jugadorId);
+        $ligaId = session('liga_activa');
 
-        $ligaUser = LigaUser::where('user_id', $user->id)->firstOrFail();
+        $ligaUser = LigaUser::where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
+            ->firstOrFail();
 
         // Sumar saldo
         $ligaUser->saldo += $jugador->valor_actual;
@@ -116,7 +124,7 @@ class MarketController extends Controller
         // Eliminar el jugador del usuario en la liga
         JugadorUserLiga::where('jugador_id', $jugadorId)
             ->where('user_id', $user->id)
-            ->where('liga_id', $ligaUser->liga_id)
+            ->where('liga_id', $ligaId)
             ->delete();
 
         return back()->with('success', 'Jugador vendido exitosamente.');

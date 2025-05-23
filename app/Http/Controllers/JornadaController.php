@@ -14,9 +14,12 @@ class JornadaController extends Controller
     public function iniciar(Request $request)
     {
         $user = Auth::user();
+        $ligaId = session('liga_activa');
 
         // Verificar si el usuario es administrador de la liga
-        $liga = Liga::where('administrador_id', $user->id)->first();
+        $liga = Liga::where('administrador_id', $user->id)
+            ->where('id', $ligaId)
+            ->first();
 
         if (!$liga) {
             return redirect()->back()->with('error', 'No tienes permisos para iniciar la jornada.');
@@ -34,6 +37,7 @@ class JornadaController extends Controller
 
         // Guardar el equipo activo en la tabla equipos_usuario_jornada
         $activos = JugadorUserLiga::where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
             ->where('en_once_inicial', true)
             ->get();
 
@@ -62,9 +66,12 @@ class JornadaController extends Controller
         $scrapingController->scrapePlayers();
 
         $user = Auth::user();
+        $ligaId = session('liga_activa');
 
         // Verificar si el usuario es administrador de la liga
-        $liga = Liga::where('administrador_id', $user->id)->first();
+        $liga = Liga::where('administrador_id', $user->id)
+            ->where('id', $ligaId)
+            ->first();
 
         if (!$liga) {
             return redirect()->back()->with('error', 'No tienes permisos para finalizar la jornada.');
