@@ -128,23 +128,18 @@
     </div>
 
     {{-- MODAL DE INFORMACIÓN DEL JUGADOR --}}
-    <div id="jugador-modal" class="fixed inset-0 bg-opacity-60 hidden justify-center items-center z-50 overflow-y-auto">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md border border-gray-200 shadow-lg relative">
+    <div id="jugador-modal" class="fixed inset-0 bg-opacity-60 hidden justify-center items-center z-50">
+        <div
+            class="bg-white p-6 rounded-lg w-full max-w-md border border-gray-200 shadow-lg relative max-h-[90vh] overflow-hidden">
             <button onclick="cerrarJugadorModal()"
                 class="absolute top-2 right-2 text-gray-500 hover:text-black text-2xl font-bold">&times;</button>
-            <div id="jugador-info-content" class="overflow-y-auto max-h-[80vh]"></div>
+            <div id="jugador-info-content" style="overflow-y: visible; max-height: none;"></div>
         </div>
     </div>
 
-    {{-- SCROLLBAR STYLES --}}
     <style>
         .scrollbar-hide::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .scrollbar-hide::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+            display: none;
         }
 
         .scrollbar-hide {
@@ -152,10 +147,22 @@
             scrollbar-width: none;
         }
 
-        .scroll-touch {
-            -webkit-overflow-scrolling: touch;
+        /* Scrollbar visible para el contenedor horizontal */
+        .scrollbar-visible::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .scrollbar-visible::-webkit-scrollbar-thumb {
+            background-color: rgba(100, 100, 100, 0.6);
+            border-radius: 10px;
+        }
+
+        .scrollbar-visible {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 100, 100, 0.6) transparent;
         }
     </style>
+
 
     {{-- SCRIPT --}}
     <script>
@@ -194,54 +201,53 @@
                         const jugador = JSON.parse(div.dataset.jugador);
                         const estadisticas = JSON.parse(div.dataset.estadisticas || '{}');
 
-                        const totalJornadas = 10;
                         let racha = Array.isArray(estadisticas.racha_puntos) ?
                             estadisticas.racha_puntos :
                             JSON.parse(estadisticas.racha_puntos || '[]');
 
-                        let ultimosDiez = racha.slice(-totalJornadas);
-                        const offset = racha.length >= 10 ? racha.length - 10 : 0;
+                        // Limitar a máximo 38 jornadas
+                        racha = racha.slice(0, 38);
 
-                        const puntosScroll = ultimosDiez.map((p, i) => {
+                        const puntosScroll = racha.map((p, i) => {
                             let color = 'bg-gray-400';
                             if (p < 0) color = 'bg-red-500';
                             else if (p >= 2 && p <= 9) color = 'bg-green-500';
                             else if (p > 9) color = 'bg-blue-500';
 
-                            const jornada = offset + i + 1;
+                            const jornada = i + 1;
 
-                            return `<div title="Jornada ${jornada}" class="w-10 h-10 flex-shrink-0 rounded-full text-white text-sm font-semibold flex items-center justify-center ${color}">${p}</div>`;
+                            return `<div title="Jornada ${jornada}" class="w-12 h-12 flex-shrink-0 rounded-full text-white text-base font-semibold flex items-center justify-center ${color}">${p}</div>`;
                         }).join('');
 
-                        // Contenedor de los puntos con scroll
                         const puntosHTML = `
-                        <div id="scroll-puntos" class="flex gap-2 overflow-x-auto scrollbar-hide scroll-touch p-1 bg-gray-100 rounded-lg max-w-full" style="width: 100%;">
-                            ${puntosScroll}
-                        </div>
-                    `;
+                             <div id="scroll-puntos" class="scrollbar-visible flex gap-3 overflow-x-auto scroll-touch p-3 bg-gray-100 rounded-lg max-w-full" 
+                                style="width: 100%; height: 72px; overflow-y: hidden;">
+                                    ${puntosScroll}
+                            </div>`;
 
                         jugadorContent.innerHTML = `
-                        <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre}</h3>
-                        <div class="flex gap-6 items-center mb-6">
-                            <img src="${jugador.imagen}" alt="${jugador.nombre}" class="w-28 h-28 rounded-full border border-gray-300">
-                            <div>
-                                <p class="text-sm text-gray-700"><strong>Equipo:</strong> ${jugador.equipo?.nombre ?? 'Sin equipo'} <img src="${jugador.equipo?.escudo}" class="inline w-5 h-5 ml-1"></p>
-                                <p class="text-sm text-gray-700"><strong>Posición:</strong> ${jugador.posicion}</p>
-                                <p class="text-sm text-gray-700"><strong>Valor actual:</strong> ${Number(jugador.valor_actual).toLocaleString('es-ES')} €</p>
-                                <p class="text-sm text-gray-700"><strong>Diferencia:</strong> ${jugador.diferencia > 0 ? '▲' : '▼'} ${Math.abs(jugador.diferencia).toLocaleString('es-ES')} €</p>
-                                <p class="text-sm text-gray-700"><strong>Puntos totales:</strong> ${estadisticas.puntos_totales ?? 0}</p>
+                            <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre}</h3>
+                            <div class="flex gap-6 items-center mb-6">
+                                <img src="${jugador.imagen}" alt="${jugador.nombre}" class="w-28 h-28 rounded-full border border-gray-300">
+                                <div>
+                                    <p class="text-sm text-gray-700"><strong>Equipo:</strong> ${jugador.equipo?.nombre ?? 'Sin equipo'} <img src="${jugador.equipo?.escudo}" class="inline w-5 h-5 ml-1"></p>
+                                    <p class="text-sm text-gray-700"><strong>Posición:</strong> ${jugador.posicion}</p>
+                                    <p class="text-sm text-gray-700"><strong>Valor actual:</strong> ${Number(jugador.valor_actual).toLocaleString('es-ES')} €</p>
+                                    <p class="text-sm text-gray-700"><strong>Diferencia:</strong> ${jugador.diferencia > 0 ? '▲' : '▼'} ${Math.abs(jugador.diferencia).toLocaleString('es-ES')} €</p>
+                                    <p class="text-sm text-gray-700"><strong>Puntos totales:</strong> ${estadisticas.puntos_totales ?? 0}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-base mb-2">📊 Últimos 10 puntos por jornada:</h4>
-                            ${puntosHTML}
-                        </div>
-                    `;
+                            <div class="p-6">
+                                <h4 class="font-semibold text-base mb-2">📊 Puntos por jornada:</h4>
+                                <div>
+                                ${puntosHTML}
+                                </div>
+                            </div>
+                        `;
 
                         jugadorModal.classList.remove('hidden');
                         jugadorModal.classList.add('flex');
 
-                        // Esperar al render y hacer scroll al final del contenedor
                         setTimeout(() => {
                             const scrollDiv = document.getElementById(
                                 'scroll-puntos');
