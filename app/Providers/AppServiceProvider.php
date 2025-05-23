@@ -35,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
         Livewire::listen('component.mount', function ($component, $params) {
             $this->checkLigaAndRedirect();
         });
+
+        View::share('appTitle', env('APP_TITLE', 'ELITEFANTASY'));
     }
 
     private function checkLigaAndRedirect()

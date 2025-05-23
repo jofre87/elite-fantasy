@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('Alineación')">
+<x-layouts.app :title="__('ELITEFANTASY')">
     @if (session('error'))
         <div class="bg-red-500 text-white px-4 py-2 rounded mb-4">{{ session('error') }}</div>
     @endif
@@ -23,14 +23,16 @@
         <div class="flex justify-center gap-4 mb-6 mt-6">
             <form method="POST" action="{{ route('jornada.iniciar') }}">
                 @csrf
-                <button type="submit" class="px-4 py-2 rounded {{ $iniciarClase }}" {{ $iniciarDisabled ? 'disabled' : '' }}>
+                <button type="submit" class="px-4 py-2 rounded {{ $iniciarClase }}"
+                    {{ $iniciarDisabled ? 'disabled' : '' }}>
                     Iniciar Jornada
                 </button>
             </form>
 
             <form method="POST" action="{{ route('jornada.finalizar') }}">
                 @csrf
-                <button type="submit" class="px-4 py-2 rounded {{ $finalizarClase }}" {{ $finalizarDisabled ? 'disabled' : '' }}>
+                <button type="submit" class="px-4 py-2 rounded {{ $finalizarClase }}"
+                    {{ $finalizarDisabled ? 'disabled' : '' }}>
                     Finalizar Jornada
                 </button>
             </form>
@@ -41,7 +43,8 @@
     <h2 class="text-lg font-semibold mb-6 text-center">Once titular (4-3-3)</h2>
     <div class="flex h-full w-full flex-1 flex-col gap-4 items-center justify-center">
         <!-- Activos -->
-        <div class="rounded-xl bg-cover bg-center" style="
+        <div class="rounded-xl bg-cover bg-center"
+            style="
     background-image: url('{{ asset('img/campo.jpg') }}');
     width: 419px;
     height: 612px;
@@ -53,21 +56,23 @@
                 $defensas = $activos->filter(fn($u) => $u->jugador->posicion === 'Defensa');
                 $mediocampistas = $activos->filter(fn($u) => $u->jugador->posicion === 'Mediocampista');
                 $delanteros = $activos->filter(fn($u) => $u->jugador->posicion === 'Delantero');
-              @endphp
+            @endphp
 
             <div class="flex flex-col h-full mt-6">
                 {{-- Delanteros: 3 plazas --}}
                 <div class="flex justify-center space-x-8 mt-6">
-                    @foreach($delanteros as $u)
+                    @foreach ($delanteros as $u)
                         @php $j = $u->jugador; @endphp
                         <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                             class="flex flex-col items-center p-2 rounded-lg mr-2 mb-6 mt-6 cursor-pointer">
-                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
-                            <span class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
+                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
+                                class="w-16 h-16 rounded-full mb-1">
+                            <span
+                                class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                         </button>
                     @endforeach
                     {{-- Huecos vacíos --}}
-                    @for($i = $delanteros->count(); $i < 3; $i++)
+                    @for ($i = $delanteros->count(); $i < 3; $i++)
                         <button onclick="seleccionarJugador(null, 'Delantero')"
                             class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
@@ -77,15 +82,17 @@
 
                 {{-- Mediocampistas: 3 plazas --}}
                 <div class="flex justify-center space-x-8">
-                    @foreach($mediocampistas as $u)
+                    @foreach ($mediocampistas as $u)
                         @php $j = $u->jugador; @endphp
                         <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                             class="flex flex-col items-center p-2 rounded-lg mr-2 mb-6 cursor-pointer">
-                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
-                            <span class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
+                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
+                                class="w-16 h-16 rounded-full mb-1">
+                            <span
+                                class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                         </button>
                     @endforeach
-                    @for($i = $mediocampistas->count(); $i < 3; $i++)
+                    @for ($i = $mediocampistas->count(); $i < 3; $i++)
                         <button onclick="seleccionarJugador(null, 'Mediocampista')"
                             class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
@@ -95,15 +102,17 @@
 
                 {{-- Defensas: 4 plazas --}}
                 <div class="flex justify-center space-x-6">
-                    @foreach($defensas as $u)
+                    @foreach ($defensas as $u)
                         @php $j = $u->jugador; @endphp
                         <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                             class="flex flex-col items-center p-2 rounded-lg mr-2 mb-6 cursor-pointer">
-                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
-                            <span class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
+                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
+                                class="w-16 h-16 rounded-full mb-1">
+                            <span
+                                class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                         </button>
                     @endforeach
-                    @for($i = $defensas->count(); $i < 4; $i++)
+                    @for ($i = $defensas->count(); $i < 4; $i++)
                         <button onclick="seleccionarJugador(null , 'Defensa')"
                             class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-6 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>
@@ -113,15 +122,17 @@
 
                 {{-- Portero: 1 plaza --}}
                 <div class="flex justify-center">
-                    @foreach($porteros as $u)
+                    @foreach ($porteros as $u)
                         @php $j = $u->jugador; @endphp
                         <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                             class="flex flex-col items-center p-2 rounded-lg mr-2 mt-6 mb-6 cursor-pointer">
-                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
-                            <span class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
+                            <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
+                                class="w-16 h-16 rounded-full mb-1">
+                            <span
+                                class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                         </button>
                     @endforeach
-                    @for($i = $porteros->count(); $i < 1; $i++)
+                    @for ($i = $porteros->count(); $i < 1; $i++)
                         <button onclick="seleccionarJugador(null, 'Portero')"
                             class="flex items-center justify-center w-16 h-16 bg-white rounded-lg mr-2 mt-6 mb-0 p-1 cursor-pointer">
                             <span class="text-red-600 font-bold text-2xl">-4</span>

@@ -39,6 +39,8 @@ class DashboardController extends Controller
         // Jugadores y goleadores
         $jugadores = Jugador::with('equipo', 'estadisticasTemporada')->get();
 
-        return view('dashboard', compact('ligaUsers', 'ligaId'));
+        // Pasar la variable 'title' a la vista
+        return view('dashboard', compact('ligaUsers', 'ligaId', 'jugadores'))
+            ->with('title', env('APP_TITLE', 'ELITEFANTASY'));
     }
 }
