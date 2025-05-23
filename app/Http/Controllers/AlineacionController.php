@@ -41,14 +41,17 @@ class AlineacionController extends Controller
     {
         $activoId = $request->input('activo_id');
         $suplenteId = $request->input('suplente_id');
+        $ligaId = session('liga_activa');
 
         // Buscar los jugadores en la tabla jugador_user_liga
         $jugadorActivo = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $activoId)
+            ->where('liga_id', $ligaId)
             ->first();
 
         $jugadorSuplente = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $suplenteId)
+            ->where('liga_id', $ligaId)
             ->first();
 
         if (is_null($activoId)) {
@@ -79,9 +82,12 @@ class AlineacionController extends Controller
     {
         $activoId = $request->input('activo_id');
 
-        // Buscar el jugador activo en la tabla jugador_user_liga
+        $ligaId = session('liga_activa');
+
+        // Buscar el jugador activo en la tabla jugador_user_liga filtrando por liga_id
         $jugadorActivo = JugadorUserLiga::where('user_id', auth()->id())
             ->where('jugador_id', $activoId)
+            ->where('liga_id', $ligaId)
             ->first();
 
         if ($jugadorActivo) {
