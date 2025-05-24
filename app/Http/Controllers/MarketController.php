@@ -28,6 +28,9 @@ class MarketController extends Controller
 
             // Selecciona jugadores aleatorios con valor_actual > 0
             $jugadoresAleatorios = Jugador::where('valor_actual', '>', 0)
+                ->whereHas('estadisticasTemporada', function ($q) {
+                    $q->where('puntos_totales', '>', 0);
+                })
                 ->inRandomOrder()
                 ->limit(15)
                 ->get();
@@ -59,9 +62,25 @@ class MarketController extends Controller
             ->where('liga_id', $ligaId)
             ->first();
 
+        // Obtener los jugadores activos y suplentes SOLO de la liga activa
+        $misJugadores = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
+            ->where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
+            ->get();
+
+        $valorMercadoTotal = $misJugadores->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->valor_actual ?? 0;
+        });
+
+        $valorMercadoDiferencia = $misJugadores->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->diferencia ?? 0;
+        });
+
         return view('mercado', [
             'players' => $mercadoHoy,
             'ligaUser' => $ligaUser,
+            'valorMercadoTotal' => $valorMercadoTotal,
+            'valorMercadoDiferencia' => $valorMercadoDiferencia,
         ]);
     }
 

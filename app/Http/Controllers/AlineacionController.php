@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EquiposUsuarioJornada;
+use App\Models\LigaUser;
 use App\Models\Liga;
 use App\Models\JugadorUserLiga;
 use Illuminate\Http\Request;
@@ -21,6 +21,11 @@ class AlineacionController extends Controller
                 $query->where('user_id', $user->id);
             })->first();
 
+        $ligaUser = LigaUser::with('user')
+            ->where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
+            ->first();
+
         // Obtener los jugadores activos y suplentes SOLO de la liga activa
         $activos = JugadorUserLiga::with(['jugador.equipo', 'jugador.estadisticasTemporada'])
             ->where('user_id', $user->id)
@@ -34,7 +39,20 @@ class AlineacionController extends Controller
             ->where('en_once_inicial', false)
             ->get();
 
-        return view('alineacion', compact('activos', 'noActivos', 'liga'));
+        // Sumar el valor de mercado de todos los jugadores (activos y no activos)
+        $valorMercadoTotal = $activos->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->valor_actual ?? 0;
+        }) + $noActivos->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->valor_actual ?? 0;
+        });
+
+        $valorMercadoDiferencia = $activos->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->diferencia ?? 0;
+        }) + $noActivos->sum(function ($jugadorUserLiga) {
+            return $jugadorUserLiga->jugador->diferencia ?? 0;
+        });
+
+        return view('alineacion', compact('activos', 'noActivos', 'liga', 'ligaUser', 'valorMercadoTotal', 'valorMercadoDiferencia'));
     }
 
     public function intercambiar(Request $request)

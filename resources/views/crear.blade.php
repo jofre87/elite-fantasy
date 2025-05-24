@@ -1,13 +1,14 @@
 <!-- filepath: d:\DAW\Proyecte\elite-fantasy\resources\views\crear.blade.php -->
 <x-layouts.app>
-    <div class="min-h-screen bg-white flex flex-col items-center justify-start py-12 px-4">
+    <div class="bg-white flex flex-col items-center justify-start py-12 px-4">
         <div class="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
             <!-- Tarjeta: Formulario de Crear Liga -->
             <div class="relative text-black rounded-lg p-6 shadow-lg mt-4"
                 style="background-color: #D9D9D9; width: 500px; height: auto;">
                 <!-- Título -->
                 <div class="flex items-center justify-between mb-6">
-                    <span class="bg-[#3B0CA8] text-black px-4 py-2 rounded-md font-bold text-sm">CREAR LIGA</span>
+                    <span class="bg-[#3B0CA8] text-white px-4 py-2 rounded-md font-bold text-sm">CREA TU PROPIA
+                        LIGA</span>
                 </div>
                 <!-- Mostrar errores -->
                 @if ($errors->any())
@@ -50,7 +51,7 @@
                     <!-- Botón de Crear -->
                     <div class="flex justify-center">
                         <button type="submit"
-                            style="background-color: #4A5568; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease;"
+                            style="background-color: #4A5568; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease, transform 0.2s ease; cursor: pointer;"
                             onmouseover="this.style.backgroundColor='#2D3748'; this.style.transform='scale(1.05)';"
                             onmouseout="this.style.backgroundColor='#4A5568'; this.style.transform='scale(1)';">
                             Crear Liga

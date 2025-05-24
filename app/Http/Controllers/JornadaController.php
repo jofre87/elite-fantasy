@@ -92,7 +92,16 @@ class JornadaController extends Controller
 
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
-            $primerValor = $rachaPuntos ? json_decode($rachaPuntos, true)[0] : 0;
+
+            // Asegúrate de que sea una cadena JSON válida
+            $primerValor = 0;
+            if ($rachaPuntos) {
+                $arrayRacha = json_decode($rachaPuntos, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($arrayRacha) && count($arrayRacha) > 0) {
+                    $primerValor = $arrayRacha[0];
+                }
+            }
+
             $equipo->update([
                 'puntos' => $primerValor,
             ]);

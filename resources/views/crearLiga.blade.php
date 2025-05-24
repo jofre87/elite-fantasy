@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <div class="min-h-screen bg-white flex flex-col items-center justify-start py-12 px-4">
+    <div class="bg-white flex flex-col items-center justify-start py-12 px-4">
 
         <div class="flex flex-wrap justify-center gap-6 w-full max-w-6xl">
             <!-- Tarjeta: Crear Liga -->
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Descripción -->
-                <p class="text-sm mb-6 text-left">
+                <p class="text-sm mb-10 text-left">
                     Únete a una liga ya creada a partir del código de invitación.
                 </p>
 

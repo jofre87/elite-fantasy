@@ -130,8 +130,6 @@
                         x-show="open" @click.away="open = false">
                         <a href="{{ route('settings.profile') }}"
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Perfil</a>
-                        <a href="{{ route('dashboard') }}"
-                            class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Dashboard</a>
                         <a href="{{ route('league.create') }}"
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Crear o Unirse a Liga</a>
                         <form method="POST" action="{{ route('logout') }}">
@@ -160,7 +158,7 @@
 
                 <!-- Usuario y logout -->
                 <div class="user-menu relative" x-data="{ open: false }">
-                    <div class="username cursor-pointer font-semibold" @click="open = !open">
+                    <div class="username font-semibold" @click="open = !open">
                         {{ auth()->user()->name }}
                     </div>
                     <div class="user-dropdown absolute right-0 mt-2 bg-blue-600 text-white rounded shadow-lg z-20"
