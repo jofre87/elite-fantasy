@@ -5,6 +5,7 @@
 <head>
     @include('partials.head')
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 </head>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
 
