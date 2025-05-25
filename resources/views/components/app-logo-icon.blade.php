@@ -1,0 +1,1 @@
+<img src="{{ asset('img/jugadr.png') }}" alt="Logo" {{ $attributes }}>
