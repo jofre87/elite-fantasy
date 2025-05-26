@@ -1,5 +1,6 @@
 <div class="flex flex-col items-center p-2">
-    <img src="{{ $jugador->jugador->imagen }}" alt="{{ $jugador->jugador->nombre }}" class="w-14 h-14  mb-1 shadow-md">
+    <img src="{{ $jugador->jugador->imagen }}" alt="{{ $jugador->jugador->nombre }}"
+        class="w-14 h-14 rounded-full mb-1 shadow-md">
 
     <span class="text-sm font-semibold text-white text-center">
         {{ $jugador->jugador->nombre }}
