@@ -265,7 +265,7 @@
     <!-- Modal Cambiar jugador -->
     <div id="modal" class="fixed inset-0 bg-black/80 hidden justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg w-11/12 max-w-md border border-gray-200 shadow-lg">
-            <h3 class="text-black text-lg font-bold mb-4">Selecciona un jugador para intercambiar</h3>
+            <h3 class="text-black text-lg font-bold mb-4">Desalinea o intercambia por un suplente</h3>
             <div class="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto">
                 @if ($noActivos->isEmpty())
                     <div class="text-center text-gray-600 text-sm font-medium col-span-full">

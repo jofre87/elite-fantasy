@@ -48,4 +48,20 @@ class LeagueController extends Controller
         // Redirige al usuario con un mensaje de éxito
         return redirect()->route('dashboard')->with('success', 'Liga creada exitosamente.');
     }
+
+    public function salirLiga()
+    {
+        $user = auth()->user();
+        $ligaId = session('liga_activa');
+
+        // Elimina la relación del usuario con la liga activa
+        LigaUser::where('user_id', $user->id)
+            ->where('liga_id', $ligaId)
+            ->delete();
+
+        // Limpia la liga activa de la sesión
+        session()->forget('liga_activa');
+
+        return redirect()->route('dashboard')->with('success', 'Has salido de la liga.');
+    }
 }

@@ -132,6 +132,13 @@
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Perfil</a>
                         <a href="{{ route('league.create') }}"
                             class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700">Crear o Unirse a Liga</a>
+                        <form method="POST" action="{{ route('league.leave') }}">
+                            @csrf
+                            <button type="submit"
+                                class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-blue-700 w-full text-left cursor-pointer">
+                                Salir de la liga
+                            </button>
+                        </form>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
@@ -148,8 +155,7 @@
                         <select name="liga_id" onchange="this.form.submit()"
                             class="text-white text-sm rounded px-2 py-1 cursor-pointer">
                             @foreach (auth()->user()->ligas as $liga)
-                                <option class="text-black" value="{{ $liga->id }}"
-                                    {{ session('liga_activa') == $liga->id ? 'selected' : '' }}>
+                                <option class="text-black" value="{{ $liga->id }}" {{ session('liga_activa') == $liga->id ? 'selected' : '' }}>
                                     Liga {{ $liga->id }}
                                 </option>
                             @endforeach

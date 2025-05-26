@@ -1,22 +1,32 @@
 <x-layouts.app :title="__('Dashboard')">
     <div class="max-w-6xl mx-auto px-4 py-6">
 
-        {{-- Panel Superior --}}
+        {{-- ENCABEZADO USUARIO --}}
         <div
-            class="bg-purple-700 text-black p-6 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center border-2 border-purple-800 mb-6">
+            class="bg-blue-200 text-black p-4 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center mb-6">
             <div class="text-center sm:text-left">
-                <p class="text-sm">Usuario:</p>
-                <p class="text-2xl font-bold">
-                    {{ $ligaUsers->first()->user->name ?? 'Sin nombre' }}
-                </p>
-                <p class="text-sm mt-1">
-                    {{ $ligaUsers->first()->user->puntos ?? '0' }} pts |
-                    {{ number_format($ligaUsers->first()->saldo, 2, ',', '.') }} €
+                <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
+                <p class="text-sm mt-1"><strong>Puntos totales: </strong>{{ $ligaUser->puntos_totales ?? '0' }}</p>
+                <p class="text-sm mt-1"><strong>Saldo: </strong>
+                    {{ number_format($ligaUser->saldo, 0, ',', '.') }} €
                 </p>
             </div>
             <div class="mt-4 sm:mt-0 text-center sm:text-right">
                 <p class="text-sm">Valor de tu equipo:</p>
-                <p class="text-2xl font-bold">65M€</p>
+                <p class="text-2xl font-bold">{{ number_format($valorMercadoTotal, 0, ',', '.') }} €</p>
+                @if ($valorMercadoDiferencia > 0)
+                    <p class="text-sm text-green-600">
+                        ▲ {{ number_format($valorMercadoDiferencia, 0, ',', '.') }} €
+                    </p>
+                @elseif ($valorMercadoDiferencia < 0)
+                    <p class="text-sm text-red-600">
+                        ▼ {{ number_format(abs($valorMercadoDiferencia), 0, ',', '.') }} €
+                    </p>
+                @else
+                    <p class="text-sm">
+                        {{ number_format($valorMercadoDiferencia, 0, ',', '.') }} €
+                    </p>
+                @endif
             </div>
         </div>
 
@@ -58,8 +68,7 @@
                         </thead>
                         <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
                             @foreach ($ligaUsers as $index => $entry)
-                                <tr
-                                    class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
+                                <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
                                     <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
                                     <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
                                     <td class="px-2 py-1 text-center">{{ $entry->puntos_totales ?? 0 }}</td>
