@@ -23,16 +23,14 @@
         <div class="flex justify-center gap-4 mb-6 mt-6">
             <form method="POST" action="{{ route('jornada.iniciar') }}">
                 @csrf
-                <button type="submit" class="px-4 py-2 rounded {{ $iniciarClase }}"
-                    {{ $iniciarDisabled ? 'disabled' : '' }}>
+                <button type="submit" class="px-4 py-2 rounded {{ $iniciarClase }}" {{ $iniciarDisabled ? 'disabled' : '' }}>
                     Iniciar Jornada
                 </button>
             </form>
 
             <form method="POST" action="{{ route('jornada.finalizar') }}">
                 @csrf
-                <button type="submit" class="px-4 py-2 rounded {{ $finalizarClase }}"
-                    {{ $finalizarDisabled ? 'disabled' : '' }}>
+                <button type="submit" class="px-4 py-2 rounded {{ $finalizarClase }}" {{ $finalizarDisabled ? 'disabled' : '' }}>
                     Finalizar Jornada
                 </button>
             </form>
@@ -73,8 +71,7 @@
         <!-- Activos -->
         <div>
             <h2 class="text-lg font-semibold mb-4 text-center">Once titular (4-3-3)</h2>
-            <div class="rounded-xl bg-cover bg-center"
-                style="
+            <div class="rounded-xl bg-cover bg-center" style="
                 background-image: url('{{ asset('img/campo.jpg') }}');
                 width: 419px;
                 height: 612px;
@@ -94,8 +91,7 @@
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                                 class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
-                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
-                                    class="w-16 h-16 rounded-full mb-1">
+                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                             </button>
@@ -115,8 +111,7 @@
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                                 class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
-                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
-                                    class="w-16 h-16 rounded-full mb-1">
+                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                             </button>
@@ -135,8 +130,7 @@
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                                 class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
-                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
-                                    class="w-16 h-16 rounded-full mb-1">
+                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                             </button>
@@ -155,8 +149,7 @@
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
                                 class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-7 cursor-pointer">
-                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}"
-                                    class="w-16 h-16 rounded-full mb-1">
+                                <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
                             </button>
@@ -261,12 +254,12 @@
                         </div>
                     </div>
                 @endforeach
-            @else
+        @else
                 <div class="col-span-full text-center text-gray-600 text-lg font-medium">
                     No tienes suplentes disponibles.
                 </div>
-        @endif
-    </div>
+            @endif
+        </div>
     </div>
 
     <!-- Modal Cambiar jugador -->
@@ -360,7 +353,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <script>
         function seleccionarJugador(jugadorId, posicion) {
@@ -440,6 +432,7 @@
                                 ${puntosHTML}
                                 </div>
                             </div>
+                            <div data-jugador-id="${jugador.id}"></div>
                         `;
 
                     jugadorModal.classList.remove('hidden');
