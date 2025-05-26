@@ -156,7 +156,7 @@
                             class="text-white text-sm rounded px-2 py-1 cursor-pointer">
                             @foreach (auth()->user()->ligas as $liga)
                                 <option class="text-black" value="{{ $liga->id }}" {{ session('liga_activa') == $liga->id ? 'selected' : '' }}>
-                                    Liga {{ $liga->id }}
+                                    {{ $liga->nombre }}
                                 </option>
                             @endforeach
                         </select>

@@ -15,7 +15,7 @@ class LeagueController extends Controller
         // Valida los datos del formulario
         $validated = $request->validate([
             'league_name' => 'required|string|max:255',
-            'password' => 'required|string|max:255', // Validación para la contraseña
+            'password' => 'required|string|min:8', // Validación para la contraseña
             'initial_share' => 'required|numeric|min:0', // Validación para el reparto inicial
         ]);
 

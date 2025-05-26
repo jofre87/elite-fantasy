@@ -36,7 +36,7 @@
                         <label for="password" class="block text-sm font-medium text-black">Contraseña</label>
                         <input type="password" name="password" id="password"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg px-4 py-3 bg-white text-gray-700"
-                            placeholder="Introduce la contraseña para unirte a la liga" required>
+                            placeholder="Introduce la contraseña" required minlength="8">
                     </div>
 
                     <!-- Reparto Inicial -->
