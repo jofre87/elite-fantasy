@@ -72,7 +72,7 @@
                 @foreach ($jornadas as $jornada)
                     <button type="submit" name="jornada_id" value="{{ $jornada }}"
                         class="px-4 py-1 rounded-full text-sm font-semibold border
-                        {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
+                            {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
                         Jornada {{ $jornada }}
                     </button>
                 @endforeach
@@ -104,8 +104,7 @@
                         </thead>
                         <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
                             @foreach ($ligaUsers as $index => $entry)
-                                <tr
-                                    class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
+                                <tr class="@if ($index === 0) bg-purple-50 dark:bg-purple-700/30 font-bold @endif">
                                     <td class="px-2 py-1 text-center">{{ $index + 1 }}º</td>
                                     <td class="px-2 py-1 truncate">{{ $entry->user->name ?? 'Sin nombre' }}</td>
                                     <td class="px-2 py-1 text-center">{{ $entry->puntos_totales ?? 0 }}</td>
