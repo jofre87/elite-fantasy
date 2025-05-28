@@ -72,7 +72,7 @@
                 @foreach ($jornadas as $jornada)
                     <button type="submit" name="jornada_id" value="{{ $jornada }}"
                         class="px-4 py-1 rounded-full text-sm font-semibold border
-                                                                {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
+                                                                    {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
                         Jornada {{ $jornada }}
                     </button>
                 @endforeach
@@ -203,7 +203,6 @@ npm run build
 
 php artisan migrate:fresh -- importante para resetear base de datos
 
-C:\>cd Users\usuari\Documents\GitHub\elite-fantasy
 php artisan serve
 http://localhost:8000/dashboard
 http://localhost:8000/scrape-players
