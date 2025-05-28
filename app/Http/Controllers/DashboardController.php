@@ -8,6 +8,7 @@ use App\Models\LigaUser;
 use App\Models\Jugador;
 use App\Models\EquiposUsuarioJornada;
 use App\Models\JugadorUserLiga;
+use App\Models\Liga;
 
 class DashboardController extends Controller
 {
@@ -40,7 +41,7 @@ class DashboardController extends Controller
         // Obtener usuarios de esa liga
         $ligaUsers = LigaUser::where('liga_id', $ligaId)
             ->with('user')
-            ->orderByDesc('saldo')
+            ->orderByDesc('puntos_totales')
             ->get();
 
         $ligaUser = LigaUser::with('user')
@@ -83,10 +84,14 @@ class DashboardController extends Controller
             return $jugadorUserLiga->jugador->diferencia ?? 0;
         });
 
+        $liga = Liga::find($ligaId);
+        $ligaNombre = $liga ? $liga->nombre : $ligaId;
+
         return view('dashboard', compact(
             'ligaUsers',
             'ligaUser',
             'ligaId',
+            'ligaNombre',
             'jugadores',
             'jornadas',
             'jornadaSeleccionada',

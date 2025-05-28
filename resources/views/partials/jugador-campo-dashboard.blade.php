@@ -2,7 +2,7 @@
     <img src="{{ $jugador->jugador->imagen }}" alt="{{ $jugador->jugador->nombre }}"
         class="w-14 h-14 rounded-full mb-1 shadow-md">
 
-    <span class="text-sm font-semibold text-white text-center">
+    <span class="text-sm font-semibold text-black text-center">
         {{ $jugador->jugador->nombre }}
     </span>
 

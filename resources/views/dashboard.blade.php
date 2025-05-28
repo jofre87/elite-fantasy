@@ -72,7 +72,7 @@
                 @foreach ($jornadas as $jornada)
                     <button type="submit" name="jornada_id" value="{{ $jornada }}"
                         class="px-4 py-1 rounded-full text-sm font-semibold border
-                            {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
+                                                        {{ $jornada == $jornadaSeleccionada ? 'bg-purple-700 text-white' : 'bg-white text-purple-700 border-purple-300 hover:bg-purple-100' }}">
                         Jornada {{ $jornada }}
                     </button>
                 @endforeach
@@ -85,8 +85,8 @@
             {{-- CLASIFICACIÓN --}}
             <div class="bg-white dark:bg-neutral-800 p-4 rounded-xl shadow border border-purple-300">
                 <h2 class="font-bold text-center text-white bg-purple-700 p-2 rounded-t">
-                    CLASIFICACIÓN @isset($ligaId)
-                        - Liga {{ $ligaId }}
+                    {{ strtoupper('CLASIFICACIÓN') }} @isset($ligaNombre)
+                        - {{ strtoupper($ligaNombre) }}
                     @endisset
                 </h2>
 
@@ -120,7 +120,7 @@
                 @if (empty($jornadas) || count($jornadas) === 0)
                     <div
                         class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-6 rounded-lg text-center font-semibold mb-4">
-                        No hay ninguna jornada aún. Espera a que se inicie una.
+                        Todavía no has jugado ninguna jornada. Espera a que se inicie una.
                     </div>
                 @else
                     <h2 class="text-lg font-semibold mb-4 text-center">Once Jornada {{ $jornadaSeleccionada }}</h2>

@@ -148,7 +148,7 @@
                         @foreach ($porteros as $u)
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
-                                class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-7 cursor-pointer">
+                                class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-5 cursor-pointer">
                                 <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>

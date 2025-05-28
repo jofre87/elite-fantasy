@@ -62,7 +62,6 @@ class JornadaController extends Controller
 
     public function finalizar(Request $request)
     {
-        (new ScrapingController())->scrapePlayers();
 
         $user = Auth::user();
         $ligaId = session('liga_activa');
@@ -81,6 +80,17 @@ class JornadaController extends Controller
             ->where('jornada_id', $ultimoJornadaId)
             ->get();
 
+        // 1. Guardar el count de racha_puntos antes del scraping
+        $countsAntes = [];
+        foreach ($equipos as $equipo) {
+            $rachaAntes = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
+            $countsAntes[$equipo->id] = is_array(json_decode($rachaAntes, true)) ? count(json_decode($rachaAntes, true)) : 0;
+        }
+
+        // 2. Hacer scraping
+        (new ScrapingController())->scrapePlayers();
+
+        //Comentar cuando empiece la liga en la vida real para que funcione correctamente
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
             $primerValor = 0;
@@ -94,6 +104,26 @@ class JornadaController extends Controller
 
             $equipo->update(['puntos' => $primerValor]);
         }
+
+        //Descomentar cuando empiece la liga en la vida real para que funcione correctamente
+        /*
+        foreach ($equipos as $equipo) {
+            $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
+            $array = is_array(json_decode($rachaPuntos, true)) ? json_decode($rachaPuntos, true) : [];
+            $countAntes = $countsAntes[$equipo->id] ?? 0;
+            $countDespues = count($array);
+
+            if ($countDespues > $countAntes) {
+                // Jugador convocado: asignar el último valor añadido
+                $puntos = $array[$countDespues - 1];
+            } else {
+                // No convocado: asignar 0
+                $puntos = 0;
+            }
+
+            $equipo->update(['puntos' => $puntos]);
+        }
+            */
 
         // Calcular y asignar puntos y saldo
         $usuariosLiga = LigaUser::where('liga_id', $ligaId)->get();
