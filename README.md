@@ -121,7 +121,7 @@ http://localhost:8000
 
 ```bash
 # Instalar dependencias PHP
-a composer install
+composer install
 
 # (Opcional) Instalar y compilar frontend
 npm install && npm run build
@@ -134,7 +134,7 @@ cp .env.example .env
 php artisan key:generate
 
 # Migraciones
-a php artisan migrate
+php artisan migrate
 # o para resetear: php artisan migrate:fresh
 
 # Seeders (opcional)
