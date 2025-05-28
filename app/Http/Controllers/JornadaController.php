@@ -90,7 +90,8 @@ class JornadaController extends Controller
         // 2. Hacer scraping
         (new ScrapingController())->scrapePlayers();
 
-        //CODIGO MALO// Comentar cuando empiece la liga en la vida real para que funcione correctamente
+        // Descomentar si se quieren hacer pruebas, ya que les asigna puntuaciones a los jugadores
+        /*
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
             $primerValor = 0;
@@ -103,10 +104,9 @@ class JornadaController extends Controller
             }
 
             $equipo->update(['puntos' => $primerValor]);
-        }
+        }*/
 
-        //CODIGO BUENO//Descomentar cuando empiece la liga en la vida real para que funcione correctamente
-        /*
+        //Comentar si se quieren hacer pruebas, ya que les asigna puntuaciones a los jugadores
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
             $array = is_array(json_decode($rachaPuntos, true)) ? json_decode($rachaPuntos, true) : [];
@@ -123,7 +123,6 @@ class JornadaController extends Controller
 
             $equipo->update(['puntos' => $puntos]);
         }
-            */
 
         // Calcular y asignar puntos y saldo
         $usuariosLiga = LigaUser::where('liga_id', $ligaId)->get();
