@@ -90,7 +90,7 @@ class JornadaController extends Controller
         // 2. Hacer scraping
         (new ScrapingController())->scrapePlayers();
 
-        //Comentar cuando empiece la liga en la vida real para que funcione correctamente
+        //CODIGO MALO// Comentar cuando empiece la liga en la vida real para que funcione correctamente
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
             $primerValor = 0;
@@ -105,7 +105,7 @@ class JornadaController extends Controller
             $equipo->update(['puntos' => $primerValor]);
         }
 
-        //Descomentar cuando empiece la liga en la vida real para que funcione correctamente
+        //CODIGO BUENO//Descomentar cuando empiece la liga en la vida real para que funcione correctamente
         /*
         foreach ($equipos as $equipo) {
             $rachaPuntos = $equipo->jugador->estadisticasTemporada->racha_puntos ?? null;
