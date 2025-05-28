@@ -4,7 +4,7 @@
         class="bg-blue-200 text-black p-4 rounded-2xl shadow-lg flex flex-col sm:flex-row justify-between items-center mb-6">
         <div class="text-center sm:text-left">
             <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
-            <p class="text-sm mt-1"><strong>Puntos totales: </strong>{{ $ligaUser->puntos_totales ?? '0' }}</p>
+            <p class="text-2xl mt-1"><strong>Puntos totales: </strong>{{ $ligaUser->puntos_totales ?? '0' }}</p>
             <p class="text-2xl mt-1"><strong>Saldo: </strong>
                 {{ number_format($ligaUser->saldo, 0, ',', '.') }} €
             </p>
