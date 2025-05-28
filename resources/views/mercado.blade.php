@@ -5,7 +5,7 @@
         <div class="text-center sm:text-left">
             <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
             <p class="text-sm mt-1"><strong>Puntos totales: </strong>{{ $ligaUser->puntos_totales ?? '0' }}</p>
-            <p class="text-sm mt-1"><strong>Saldo: </strong>
+            <p class="text-2xl mt-1"><strong>Saldo: </strong>
                 {{ number_format($ligaUser->saldo, 0, ',', '.') }} €
             </p>
         </div>
@@ -70,7 +70,7 @@
                                 class="w-14 h-14 rounded-full border border-gray-300">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-base font-semibold">{{ ucwords($player->nombre) }}</span>
+                                    <span class="text-base text-black font-semibold">{{ ucwords($player->nombre) }}</span>
                                     <img src="{{ $player->equipo->escudo }}" class="w-6 h-6"
                                         alt="{{ $player->equipo->nombre }}">
                                 </div>
@@ -119,11 +119,10 @@
                         </div>
 
                         <div class="mt-2 flex justify-end">
-                            <form method="POST" action="{{ route('jugador.comprar', $player->id) }}"
-                                class="form-comprar">
+                            <form method="POST" action="{{ route('jugador.comprar', $player->id) }}" class="form-comprar">
                                 @csrf
                                 <button type="submit"
-                                    class="bg-gray-200 border border-gray-400 rounded-lg px-3 py-1 text-sm hover:bg-gray-300 transition cursor-pointer">Comprar</button>
+                                    class="bg-gray-200 border border-gray-400 rounded-lg text-black px-3 py-1 text-sm hover:bg-gray-300 transition cursor-pointer">Comprar</button>
                             </form>
                         </div>
                     </div>
@@ -250,7 +249,7 @@
                                 </div>`;
 
                         jugadorContent.innerHTML = `
-                            <h3 class="text-2xl font-bold mb-4 text-center">${jugador.nombre.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</h3>
+                            <h3 class="text-2xl text-black font-bold mb-4 text-center">${jugador.nombre.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</h3>
                             <div class="flex gap-6 items-center mb-6">
                                 <img src="${jugador.imagen}" alt="${jugador.nombre.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}" class="w-28 h-28 rounded-full border border-gray-300">
                                 <div>
@@ -262,7 +261,7 @@
                                 </div>
                             </div>
                             <div class="p-6">
-                                <h4 class="font-semibold text-base mb-2">📊 Historial de puntos:</h4>
+                                <h4 class="font-semibold text-black text-base mb-2">📊 Historial de puntos:</h4>
                                 <div>
                                 ${puntosHTML}
                                 </div>

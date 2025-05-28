@@ -45,7 +45,7 @@
                 <div class="text-center sm:text-left">
                     <p class="text-2xl font-bold">{{ $ligaUser->user->name ?? 'Sin nombre' }}</p>
                     <p class="text-sm mt-1"><strong>Puntos totales: </strong>{{ $ligaUser->puntos_totales ?? '0' }}</p>
-                    <p class="text-sm mt-1"><strong>Saldo: </strong>
+                    <p class="text-2xl mt-1"><strong>Saldo: </strong>
                         {{ number_format($ligaUser->saldo, 0, ',', '.') }} €
                     </p>
                 </div>
@@ -90,7 +90,7 @@
                         @foreach ($delanteros as $u)
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
-                                class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
+                                class="flex flex-col items-center p-2 rounded-lg ml-0 mr-0 mt-10 cursor-pointer">
                                 <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
@@ -110,7 +110,7 @@
                         @foreach ($mediocampistas as $u)
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
-                                class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
+                                class="flex flex-col items-center p-2 rounded-lg ml-0 mr-0 mt-10 cursor-pointer">
                                 <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
@@ -129,7 +129,7 @@
                         @foreach ($defensas as $u)
                             @php $j = $u->jugador; @endphp
                             <button onclick="seleccionarJugador({{ $j->id }}, '{{ $j->posicion }}')"
-                                class="flex flex-col items-center p-2 rounded-lg ml-2 mr-2 mt-10 cursor-pointer">
+                                class="flex flex-col items-center p-2 rounded-lg ml-0 mr-0 mt-10 cursor-pointer">
                                 <img src="{{ $j->imagen }}" alt="{{ $j->nombre }}" class="w-16 h-16 rounded-full mb-1">
                                 <span
                                     class="text-gray-800 font-semibold text-sm text-center">{{ ucwords($j->nombre) }}</span>
