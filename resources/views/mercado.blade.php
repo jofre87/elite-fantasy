@@ -240,7 +240,7 @@
                         const puntosHTML = puntosScroll.trim() ?
                             `
                                 <div id="scroll-puntos" class="scrollbar-visible flex gap-3 overflow-x-auto scroll-touch p-3 bg-gray-100 rounded-lg max-w-full" 
-                                    style="width: 100%; height: 72px; overflow-y: hidden;">
+                                    style="width: 100%; height: 90px; overflow-y: hidden;">
                                     ${puntosScroll}
                                 </div>` :
                             `
