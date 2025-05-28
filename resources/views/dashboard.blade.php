@@ -99,7 +99,7 @@
                             <tr>
                                 <th class="px-2 py-1 w-8 text-center">#</th>
                                 <th class="px-2 py-1 truncate">Usuario</th>
-                                <th class="px-2 py-1 w-14 text-center">Puntos</th>
+                                <th class="px-2 py-1 w-16 text-center">Puntos</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-purple-200 dark:divide-purple-700">
